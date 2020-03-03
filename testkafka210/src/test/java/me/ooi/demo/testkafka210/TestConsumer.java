@@ -58,7 +58,6 @@ public class TestConsumer {
 			}
 		});
 	    
-
 	    Runtime.getRuntime().addShutdownHook(new Thread(()->{
 	        consumer.close();
 	    }));
