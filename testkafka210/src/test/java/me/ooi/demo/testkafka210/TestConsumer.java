@@ -42,7 +42,7 @@ public class TestConsumer {
 	}
 	
 	public void testSeek() throws IOException {
-	    final String TOPIC = "topic-9" ; 
+	    final String TOPIC = "streams-pipe-output" ; 
 	    Properties props = new Properties() ; 
 	    props.load(TestConsumer.class.getResourceAsStream("/consumer.properties"));
 	    KafkaConsumer<Integer, String> consumer = new KafkaConsumer<>(props);
