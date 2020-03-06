@@ -74,7 +74,7 @@ public class TestProducer {
 	}
 	
 	@Test
-	public void testGroupByKey(){
+	public void testGroupBy(){
 		producer.send(new ProducerRecord<String, String>(TestKafkaStreams.TOPIC_INPUT, "k1", "v1"));
 		producer.send(new ProducerRecord<String, String>(TestKafkaStreams.TOPIC_INPUT, "k2", "v2"));
 		producer.send(new ProducerRecord<String, String>(TestKafkaStreams.TOPIC_INPUT, "k1", "v1"));
