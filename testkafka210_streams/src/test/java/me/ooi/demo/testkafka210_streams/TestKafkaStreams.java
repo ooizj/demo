@@ -11,12 +11,14 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KGroupedStream;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Printed;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * 官方文档: https://kafka.apache.org/21/documentation/streams/developer-guide/dsl-api.html
  * @author jun.zhao
  * @since 1.0
  */
@@ -125,18 +127,32 @@ public class TestKafkaStreams {
 	//test groupByKey
 	//Groups the records by the existing key.
 	//每次计算的都是所有的数据，包含以前的；
-	//非实时计算
+	//非实时
 	@Test
 	public void testGroupByKey() {
 		KGroupedStream<String, String> groupedStream = source.groupByKey() ; 
-		groupedStream.count().toStream().print(Printed.toSysOut());
+		KTable<String, Long> ktable = groupedStream.count() ; 
+		ktable.toStream().print(Printed.toSysOut());
 	}
 	
 	//test groupBy
 	@Test
 	public void testGroupBy() {
 		KGroupedStream<String, String> groupedStream = source.groupBy((key, value) -> key+value) ; 
-		groupedStream.count().toStream().print(Printed.toSysOut());
+		KTable<String, Long> ktable = groupedStream.count() ; 
+		ktable.toStream().print(Printed.toSysOut());
+	}
+	
+	//test Reduce
+	@Test
+	public void testReduce() {
+		KGroupedStream<String, String> groupedStream = source.groupByKey() ; 
+		KTable<String, String> aggregatedTable = groupedStream.reduce(
+				(value1, value2) -> {
+					System.out.println("聚合值："+value1+"，值："+value2);
+					return value1+value2 ; 
+				}) ; 
+		aggregatedTable.toStream().print(Printed.toSysOut());
 	}
 	
 }

@@ -81,5 +81,39 @@ public class TestProducer {
 		producer.send(new ProducerRecord<String, String>(TestKafkaStreams.TOPIC_INPUT, "k1", "v3"));
 	}
 	
+	@Test
+	public void testAggregate(){
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreams.TOPIC_INPUT, "k1", "v1"));
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreams.TOPIC_INPUT, "k2", "v2"));
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreams.TOPIC_INPUT, "k1", "v1"));
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreams.TOPIC_INPUT, "k1", "v3"));
+	}
+	
+	@Test
+	public void testWindowedAggregate(){
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k1", "1"));
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k2", "2"));
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k1", "1"));
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k1", "3"));
+	}
+	
+	@Test
+	public void testWindowedAggregate2() throws InterruptedException{
+		
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k1", "1"));
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k2", "2"));
+		
+		//2s后放入一条
+		Thread.sleep(1000*2);
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k1", "10"));
+		
+		//4s后放入一条
+		Thread.sleep(1000*4);
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k1", "1"));
+		
+		//6s后放入一条
+		Thread.sleep(1000*6);
+		producer.send(new ProducerRecord<String, String>(TestKafkaStreamsWindowed.TOPIC_INPUT, "k1", "3"));
+	}
 	
 }
