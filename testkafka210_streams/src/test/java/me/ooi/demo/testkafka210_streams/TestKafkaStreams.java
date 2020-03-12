@@ -10,6 +10,7 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KGroupedStream;
+import org.apache.kafka.streams.kstream.KGroupedTable;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Printed;
@@ -143,6 +144,12 @@ public class TestKafkaStreams {
 		ktable.toStream().print(Printed.toSysOut());
 	}
 	
+	//test GlobalKTable
+	@Test
+	public void testGlobalKTable(){
+		
+	}
+	
 	//test Reduce
 	@Test
 	public void testReduce() {
@@ -153,6 +160,59 @@ public class TestKafkaStreams {
 					return value1+value2 ; 
 				}) ; 
 		aggregatedTable.toStream().print(Printed.toSysOut());
+	}
+	
+	//test Reduce
+	@Test
+	public void testReduce2() {
+		KGroupedStream<String, String> groupedStream = source.groupByKey() ; 
+		KTable<String, String> ktable = groupedStream.reduce((aggValue, value) -> {
+					System.out.println("聚合值："+aggValue+"，值："+value);
+					try {
+						int av = Integer.parseInt(aggValue) ; 
+						int v = Integer.parseInt(value) ; 
+						if( v > 100 ){
+							return aggValue ; 
+						}else {
+							return String.valueOf(av+v) ; 
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						return "0" ; 
+					}
+//					return "0" ; 
+				}) ; 
+		
+		KGroupedTable<String, String>  groupedTable = ktable.groupBy((key, value)->KeyValue.pair(key, value)) ; //no change
+		
+		KTable<String, String> ktable2 = groupedTable.reduce((aggValue, value) -> {
+			System.out.println("add 聚合值："+aggValue+"，值："+value);
+			try {
+				if( aggValue == null ){
+					aggValue = "0" ; 
+				}
+				int av = Integer.parseInt(aggValue) ; 
+				int v = Integer.parseInt(value) ; 
+				return String.valueOf(av+v) ; 
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				return "0" ; 
+			}
+		}, (aggValue, value) -> {
+			System.out.println("sub 聚合值："+aggValue+"，值："+value); 
+			try {
+				if( aggValue == null ){
+					aggValue = "0" ; 
+				}
+				int av = Integer.parseInt(aggValue) ; 
+				int v = Integer.parseInt(value) ; 
+				return String.valueOf(av-v) ; 
+			} catch (Exception e2) {
+				e2.printStackTrace();
+				return "0" ; 
+			}
+		}) ; 
+		ktable2.toStream().print(Printed.toSysOut());
 	}
 	
 }
