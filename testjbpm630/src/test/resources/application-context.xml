@@ -41,7 +41,7 @@
 		<property name="minPoolSize" value="10"/>
 		<property name="maxPoolSize" value="100"/>
 		<property name="preparedStatementCacheSize" value="0"/>
-		<property name="shareTransactionConnections" value="true"/>
+		<property name="shareTransactionConnections" value="false"/>
 		<property name="useTmJoin" value="true"/>
 		<property name="driverProperties">
 		  <props>
@@ -57,6 +57,7 @@
 		<property name="transactionSynchronizationRegistryName" value="java:comp/TransactionSynchronizationRegistry"/>
 		<property name="transactionManager" ref="bitronixTransactionManager" />
 		<property name="userTransaction" ref="bitronixTransactionManager" />
+		<property name="allowCustomIsolationLevels" value="true" />
 	</bean>
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>

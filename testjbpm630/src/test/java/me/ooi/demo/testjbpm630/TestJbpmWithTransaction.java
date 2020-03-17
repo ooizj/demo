@@ -10,12 +10,15 @@ import org.junit.runner.RunWith;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.runtime.process.WorkItemManager;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.Status;
 import org.kie.api.task.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author jun.zhao
@@ -23,35 +26,48 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(value=SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/application-context.xml")
-public class TestJbpm2 {
+public class TestJbpmWithTransaction {
 	
 	@Autowired
 	private RuntimeEngineHolder runtimeEngineHolder ; 
 	
-	private Long processInstanceId ; 
-	
 	@Before
 	public void init(){
 		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE);
-		
-//		RuntimeEnvironment env = runtimeEngineHolder.getRuntimeEnvironment() ; 
-//		AbstractAuditLogger auditLogger = AuditLoggerFactory.newJPAInstance(env.getEnvironment()) ; 
-		
+	}
+	
+	@Test
+	@Rollback(false) //在进行测试的时候，必须设置为false才能提交，否则会回滚，如果不用“spring-test”则不用设置；另外，设置为“false”后报错也不会回滚
+	@Transactional
+	public void startProcessInstance(){
 		RuntimeEngine runtimeEngine = runtimeEngineHolder.getRuntimeEngine() ; 
 	    KieSession ksession = runtimeEngine.getKieSession() ; 
-//	    ksession.addEventListener(auditLogger);
 	    
 	    Map<String, Object> params = new HashMap<>() ; 
 		params.put("userId", "123") ; 
 		ProcessInstance processInstance = ksession.createProcessInstance("t2", params) ; 
 		ksession.startProcessInstance(processInstance.getId()) ; 
 		
-		processInstanceId = processInstance.getId() ; 
+		long processInstanceId = processInstance.getId() ; 
+		System.out.println("流程id = "+processInstanceId);
 	}
 	
 	@Test
-	public void t1(){
-		System.out.println("流程id = "+processInstanceId);
+	@Rollback(false)
+	@Transactional
+	public void approveFirstNode(){
+		long processInstanceId = 60 ; 
+		Task readyTask = getReadyTaskByProcessInstanceId(processInstanceId) ; 
+		doTask(processInstanceId, readyTask.getId(), "123");
+	}
+	
+	@Test
+	@Rollback(false)
+	@Transactional
+	public void approveLastNode(){
+		long processInstanceId = 60 ; 
+		Task readyTask = getReadyTaskByProcessInstanceId(processInstanceId) ; 
+		doTask(processInstanceId, readyTask.getId(), "qqq");
 	}
 	
 	private Task getReadyTaskByProcessInstanceId(Long processInstanceId){
@@ -72,6 +88,7 @@ public class TestJbpm2 {
 		//这里的kieSession要先获取，不然“PerProcessInstance模式下”，在“complete()”的时候，流程实例和session对应关系会被删除，
 		//删除后就无法通过“runtimeEngine.getKieSession()”来获取session了
 		KieSession kieSession = runtimeEngineHolder.getRuntimeEngine(processInstanceId).getKieSession() ; 
+		WorkItemManager wm = kieSession.getWorkItemManager() ; 
 		
 		//认领任务
 		taskService.claim(taskId, userId);
@@ -86,34 +103,7 @@ public class TestJbpm2 {
 		
 		//完成通知
 		Task task = taskService.getTaskById(taskId) ;
-		kieSession.getWorkItemManager().completeWorkItem(task.getTaskData().getWorkItemId(), data) ;
+		wm.completeWorkItem(task.getTaskData().getWorkItemId(), data) ;
 	}
 	
-	@Test
-	public void t2(){
-		System.out.println("流程id = "+processInstanceId);
-		
-		Task readyTask = getReadyTaskByProcessInstanceId(processInstanceId) ; 
-		doTask(processInstanceId, readyTask.getId(), "123");
-	}
-	
-	@Test
-	public void t3(){
-		System.out.println("流程id = "+processInstanceId);
-		
-		Task readyTask = getReadyTaskByProcessInstanceId(processInstanceId) ; 
-		doTask(processInstanceId, readyTask.getId(), "sdf");
-	}
-	
-	@Test
-	public void t4(){
-		System.out.println("流程id = "+processInstanceId);
-		
-		Task readyTask = getReadyTaskByProcessInstanceId(processInstanceId) ; 
-		doTask(processInstanceId, readyTask.getId(), "123");
-		
-		readyTask = getReadyTaskByProcessInstanceId(processInstanceId) ; 
-		doTask(processInstanceId, readyTask.getId(), "abc");
-	}
-
 }
