@@ -1,9 +1,13 @@
-package me.ooi.demo.testjbpm630;
+package me.ooi.demo.testjbpm630.utils;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.manager.RuntimeEngine;
@@ -79,13 +83,24 @@ public class RuntimeEngineHolder {
 	}
 	
 	private RuntimeEnvironment buildRuntimeEnvironment(){
-		RuntimeEnvironmentBuilder envBuilder = RuntimeEnvironmentBuilder.Factory.get()
-			    .newDefaultBuilder()
-			    .userGroupCallback(userGroupCallback)
-			    .entityManagerFactory(entityManagerFactory)
-			    .addEnvironmentEntry(EnvironmentName.TRANSACTION_MANAGER, transactionManager)
-			    .addAsset(ResourceFactory.newClassPathResource("t2.bpmn", "utf-8"), ResourceType.BPMN2); //add bpmn file
-		return envBuilder.get() ; 
+		return buildRuntimeEnvironment(
+				Arrays.asList(ResourceFactory.newClassPathResource("t2.bpmn", "utf-8"),
+						ResourceFactory.newClassPathResource("t3.bpmn", "utf-8"))) ; 
+	}
+	
+	private RuntimeEnvironment buildRuntimeEnvironment(List<Resource> jbpmFiles){
+		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get()
+				.newDefaultBuilder()
+				.userGroupCallback(userGroupCallback)
+				.addEnvironmentEntry(EnvironmentName.TRANSACTION_MANAGER, transactionManager)
+				.entityManagerFactory(entityManagerFactory) ; 
+		
+		if( jbpmFiles != null ){
+			for (Resource jbpmFile : jbpmFiles) {
+				builder.addAsset(jbpmFile, ResourceType.BPMN2) ; 
+			}
+		}
+		return builder.get() ; 
 	}
 	
 	public synchronized void reset(String strategy){ 
