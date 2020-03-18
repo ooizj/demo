@@ -38,6 +38,8 @@ public class TestWorkItemHandler {
 	@Before
 	public void init(){
 		KieSession ksession = runtimeEngineHolder.getRuntimeEngine().getKieSession();
+		
+		//自定义WorkItemHandler参考https://docs.jboss.org/jbpm/v6.3/userguide/ch21.html
 		ksession.getWorkItemManager().registerWorkItemHandler("Log", new WorkItemHandler() {
 			@Override
 			public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
