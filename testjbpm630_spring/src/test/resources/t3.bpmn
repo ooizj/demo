@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<definitions id="Definition"
+             targetNamespace="http://www.jboss.org/drools"
+             typeLanguage="http://www.java.com/javaTypes"
+             expressionLanguage="http://www.mvel.org/2.0"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             xmlns:g="http://www.jboss.org/drools/flow/gpd"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:tns="http://www.jboss.org/drools">
+
+  <itemDefinition id="null" />
+  <itemDefinition id="_userId" structureRef="String" />
+  <itemDefinition id="_msg" structureRef="String" />
+  <process processType="Private" isExecutable="true" id="t3" name="test-process3" tns:packageName="me.ooi.demo" >
+
+    <!-- process variables -->
+    <property id="userId" itemSubjectRef="null"/>
+    <property id="msg" itemSubjectRef="null"/>
+
+    <!-- nodes -->
+    <startEvent id="_1" name="StartProcess"  isInterrupting="true">
+    </startEvent>
+    <endEvent id="_jbpm-unique-0" name="End" >
+        <terminateEventDefinition />
+    </endEvent>
+    <userTask id="_jbpm-unique-1" name="节点1" >
+      <ioSpecification>
+        <dataInput id="_jbpm-unique-1_CommentInput" name="Comment" />
+        <dataInput id="_jbpm-unique-1_TaskNameInput" name="TaskName" />
+        <dataInput id="_jbpm-unique-1_NodeNameInput" name="NodeName" />
+        <dataInput id="_jbpm-unique-1_GroupIdInput" name="GroupId" />
+        <dataOutput id="_jbpm-unique-1_msgOutput" name="msg" />
+        <inputSet>
+          <dataInputRefs>_jbpm-unique-1_CommentInput</dataInputRefs>
+          <dataInputRefs>_jbpm-unique-1_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_jbpm-unique-1_NodeNameInput</dataInputRefs>
+          <dataInputRefs>_jbpm-unique-1_GroupIdInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_jbpm-unique-1_msgOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-1_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">哈哈哈</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-1_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-1_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">t1</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-1_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-1_NodeNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">节点1</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-1_NodeNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-1_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">g1</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-1_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_jbpm-unique-1_msgOutput</sourceRef>
+        <targetRef>msg</targetRef>
+      </dataOutputAssociation>
+      <potentialOwner>
+        <resourceAssignmentExpression>
+          <formalExpression>#{userId}</formalExpression>
+        </resourceAssignmentExpression>
+      </potentialOwner>
+    </userTask>
+    <userTask id="_jbpm-unique-2" name="节点2" >
+      <ioSpecification>
+        <dataInput id="_jbpm-unique-2_TaskNameInput" name="TaskName" />
+        <dataInput id="_jbpm-unique-2_NodeNameInput" name="NodeName" />
+        <dataInput id="_jbpm-unique-2_GroupIdInput" name="GroupId" />
+        <inputSet>
+          <dataInputRefs>_jbpm-unique-2_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_jbpm-unique-2_NodeNameInput</dataInputRefs>
+          <dataInputRefs>_jbpm-unique-2_GroupIdInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-2_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">t2</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-2_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-2_NodeNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">节点2</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-2_NodeNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-2_GroupIdInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">g2</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-2_GroupIdInput</to>
+        </assignment>
+      </dataInputAssociation>
+    </userTask>
+    <task id="_jbpm-unique-6" name="记录节点1结果" tns:taskName="Log" >
+      <ioSpecification>
+        <dataInput id="_jbpm-unique-6_MessageInput" name="Message" />
+        <inputSet>
+          <dataInputRefs>_jbpm-unique-6_MessageInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-6_MessageInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">print: #{msg}</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-6_MessageInput</to>
+        </assignment>
+      </dataInputAssociation>
+    </task>
+
+    <!-- connections -->
+    <sequenceFlow id="_jbpm-unique-2-_jbpm-unique-0" sourceRef="_jbpm-unique-2" targetRef="_jbpm-unique-0" />
+    <sequenceFlow id="_1-_jbpm-unique-1" sourceRef="_1" targetRef="_jbpm-unique-1" />
+    <sequenceFlow id="_jbpm-unique-6-_jbpm-unique-2" sourceRef="_jbpm-unique-6" targetRef="_jbpm-unique-2" />
+    <sequenceFlow id="_jbpm-unique-1-_jbpm-unique-6" sourceRef="_jbpm-unique-1" targetRef="_jbpm-unique-6" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="t3" >
+      <bpmndi:BPMNShape bpmnElement="_1" >
+        <dc:Bounds x="29" y="135" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_jbpm-unique-0" >
+        <dc:Bounds x="595" y="133" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_jbpm-unique-1" >
+        <dc:Bounds x="124" y="134" width="100" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_jbpm-unique-2" >
+        <dc:Bounds x="428" y="133" width="100" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_jbpm-unique-6" >
+        <dc:Bounds x="266" y="135" width="122" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_jbpm-unique-2-_jbpm-unique-0" >
+        <di:waypoint x="478" y="157" />
+        <di:waypoint x="619" y="157" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_1-_jbpm-unique-1" >
+        <di:waypoint x="53" y="159" />
+        <di:waypoint x="174" y="158" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_jbpm-unique-6-_jbpm-unique-2" >
+        <di:waypoint x="327" y="159" />
+        <di:waypoint x="478" y="157" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_jbpm-unique-1-_jbpm-unique-6" >
+        <di:waypoint x="174" y="158" />
+        <di:waypoint x="327" y="159" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</definitions>

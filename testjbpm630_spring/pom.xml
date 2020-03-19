@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>me.ooi.demo</groupId>
-  <artifactId>testjbpm630</artifactId>
+  <artifactId>testjbpm630_spring</artifactId>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -17,7 +17,9 @@
 		<drools.version>6.3.0.Final</drools.version>
 		<jbpm.version>6.3.0.Final</jbpm.version>
     	<hibernate.version>4.2.0.Final</hibernate.version>
+    	<spring.version>4.3.18.RELEASE</spring.version>
     	<btm.version>3.0.0-mk1</btm.version>
+    	<btm.spring.version>3.0.0-mk1</btm.spring.version>
 	</properties>
 	
 	<repositories>
@@ -121,13 +123,55 @@
 		    <version>${hibernate.version}</version>
 		</dependency>
 		
+		<!-- ================================spring================================ -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-core</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-beans</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-tx</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-orm</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+		
 		
 		<dependency>
 		    <groupId>com.github.marcus-nl.btm</groupId>
 		    <artifactId>btm</artifactId>
 		    <version>${btm.version}</version>
 		</dependency>
-		
+		<dependency>
+		    <groupId>com.github.marcus-nl.btm</groupId>
+		    <artifactId>btm-spring</artifactId>
+		    <version>${btm.spring.version}</version>
+		</dependency>
 		
 		<dependency>
 		    <groupId>mysql</groupId>
@@ -136,6 +180,5 @@
 		</dependency>
 		
 	</dependencies>
-
-
+	
 </project>

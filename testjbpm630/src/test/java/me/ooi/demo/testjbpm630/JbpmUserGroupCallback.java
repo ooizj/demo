@@ -1,4 +1,4 @@
-package me.ooi.demo.testjbpm630.utils;
+package me.ooi.demo.testjbpm630;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  */
 @Scope(value=BeanDefinition.SCOPE_SINGLETON)
 @Component
-public class TestUserGroupCallback implements UserGroupCallback {
+public class JbpmUserGroupCallback implements UserGroupCallback {
 	
 	//测试数据
 	public static Map<String, List<String>> userGroups = new LinkedHashMap<String, List<String>>() ; 

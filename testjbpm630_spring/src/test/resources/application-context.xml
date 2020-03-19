@@ -16,7 +16,7 @@
 	   					   http://www.springframework.org/schema/aop
 	   					   http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 
-	<context:component-scan base-package="me.ooi.demo.testjbpm630" />
+	<context:component-scan base-package="me.ooi.demo.testjbpm630_spring" />
 	<context:property-placeholder location="jdbc.properties" file-encoding="utf-8"/>
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

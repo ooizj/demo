@@ -1,33 +1,37 @@
-package me.ooi.demo.testjbpm630.withoutspring;
+package me.ooi.demo.testjbpm630_spring;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.manager.RuntimeEnvironment;
-import org.kie.api.runtime.manager.RuntimeManager;
-import org.kie.api.runtime.manager.RuntimeManagerFactory;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.TaskService;
 import org.kie.api.task.model.Status;
 import org.kie.api.task.model.Task;
-import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jun.zhao
  * @since 1.0
  */
-public class WorkFlowHelper2 {
+@Scope(value=BeanDefinition.SCOPE_SINGLETON)
+@Component
+public class WorkFlowHelper {
 	
-	private RuntimeManager runtimeManager ; 
+	@Autowired
+	private RuntimeEngineHolder runtimeEngineHolder ; 
 	
-	public WorkFlowHelper2(RuntimeEnvironment environment) {
-		runtimeManager = RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(environment) ;
-	}
+//	@PostConstruct
+//	private void init(){
+//		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
+//	}
 	
 	public long startProcess(String processId, String actorId){
-		KieSession ksession = runtimeManager.getRuntimeEngine(ProcessInstanceIdContext.get(null)).getKieSession();
+		KieSession ksession = runtimeEngineHolder.getRuntimeEngine().getKieSession();
 		return startProcess(ksession, processId, actorId) ; 
 	}
 	
@@ -49,7 +53,7 @@ public class WorkFlowHelper2 {
 	
 	//根据流程实例id查询代办任务
 	public Task getReadyTaskByProcessInstanceId(Long processInstanceId){
-		TaskService taskService = runtimeManager.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId)).getTaskService() ; 
+		TaskService taskService = runtimeEngineHolder.getRuntimeEngine(processInstanceId).getTaskService() ; 
 		List<Long> taskIds = taskService.getTasksByProcessInstanceId(processInstanceId) ; 
 		for (Long taskId : taskIds) {
 			Task task = taskService.getTaskById(taskId) ;
@@ -69,7 +73,7 @@ public class WorkFlowHelper2 {
 		
 		System.out.println("--------------------debug:doTask start--------------------");
 		
-		TaskService taskService = runtimeManager.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId)).getTaskService() ; 
+		TaskService taskService = runtimeEngineHolder.getRuntimeEngine(processInstanceId).getTaskService() ; 
 		
 		//认领任务
 		System.out.println("debug:doTask claim");
@@ -84,10 +88,6 @@ public class WorkFlowHelper2 {
 		taskService.complete(taskId, userId, data) ; 
 		
 		System.out.println("--------------------debug:doTask end--------------------");
-	}
-
-	public RuntimeManager getRuntimeManager() {
-		return runtimeManager;
 	}
 
 }

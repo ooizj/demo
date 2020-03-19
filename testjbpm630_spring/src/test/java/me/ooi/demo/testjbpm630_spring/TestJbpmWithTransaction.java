@@ -1,4 +1,4 @@
-package me.ooi.demo.testjbpm630;
+package me.ooi.demo.testjbpm630_spring;
 
 import javax.annotation.PostConstruct;
 
@@ -10,9 +10,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import me.ooi.demo.testjbpm630.utils.RuntimeEngineHolder;
-import me.ooi.demo.testjbpm630.utils.WorkFlowHelper;
 
 /**
  * @author jun.zhao

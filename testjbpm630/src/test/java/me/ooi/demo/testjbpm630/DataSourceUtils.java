@@ -1,4 +1,4 @@
-package me.ooi.demo.testjbpm630.withoutspring;
+package me.ooi.demo.testjbpm630;
 
 import java.util.Properties;
 
@@ -8,7 +8,7 @@ import bitronix.tm.resource.jdbc.PoolingDataSource;
  * @author jun.zhao
  * @since 1.0
  */
-public class BTMDataSourceUtils {
+public class DataSourceUtils {
 	
 	private static PoolingDataSource setDataSourceProperties(PoolingDataSource ds){
 		ds.setAcquireIncrement(1);
