@@ -152,7 +152,6 @@ public class RuntimeEngineHolder {
 		//“runtimeEngine”和被创建的流程实例的对应关系被保存下来
 		//在后面要使用“runtimeEngine”的时候，就需要根据流程实例ID来查询到对应的“runtimeEngine”
 		//在流程最后一个节点“taskService.complete()”的时候，对应关系会被删除，流程实例也会被删除
-		//	若需要通知流程引擎“kieSession.completeWorkItem()”,这需要在“complete()”之前先获取到kieSession（因为对应关系被删除了），调用“completeWorkItem()”后kieSession被删除
 		runtimeManager = RuntimeManagerFactory.Factory.get().newPerProcessInstanceRuntimeManager(runtimeEnvironment, IDENTIFIER_PER_PROCESSINSTANCE) ; 
 	}
 	
