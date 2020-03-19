@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeEnvironment;
 import org.kie.api.runtime.manager.RuntimeManager;
 import org.kie.api.runtime.manager.RuntimeManagerFactory;
@@ -59,7 +60,7 @@ public class TestJbpm {
 	
 	@Test
 	public void t2(){
-		String processId = "t3" ; 
+		String processId = "t2" ; 
 		String actorId = "233";
 		long processInstanceId = startProcess(processId, actorId) ; 
 		
@@ -94,6 +95,9 @@ public class TestJbpm {
 		taskService.start(taskId, actorId);
 		//完成任务
 		taskService.complete(taskId, actorId, data) ; 
+		
+		RuntimeEngine runtime = runtimeManager.getRuntimeEngine(ProcessInstanceIdContext.get(processInstanceId)) ; 
+		runtimeManager.disposeRuntimeEngine(runtime);
 	}
 
 	private RuntimeEnvironment createRuntimeEnvironment(){

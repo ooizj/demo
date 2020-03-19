@@ -8,7 +8,8 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="http://java.sun.com/xml/ns/persistence">
 
-	<persistence-unit name="org.jbpm.persistence.jta" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="org.jbpm.persistence.jta" transaction-type="JTA">
+<!-- 	<persistence-unit name="org.jbpm.persistence.jta" transaction-type="RESOURCE_LOCAL"> -->
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 <!-- 	    <jta-data-source>jdbc/btm-ds1</jta-data-source> -->
 	    <mapping-file>META-INF/JBPMorm.xml</mapping-file>

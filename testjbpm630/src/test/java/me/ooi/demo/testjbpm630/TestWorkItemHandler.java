@@ -37,6 +37,8 @@ public class TestWorkItemHandler {
 	
 	@Before
 	public void init(){
+		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
+		
 		KieSession ksession = runtimeEngineHolder.getRuntimeEngine().getKieSession();
 		
 		//自定义WorkItemHandler参考https://docs.jboss.org/jbpm/v6.3/userguide/ch21.html

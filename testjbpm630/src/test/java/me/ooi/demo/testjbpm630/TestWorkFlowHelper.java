@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import me.ooi.demo.testjbpm630.utils.RuntimeEngineHolder;
 import me.ooi.demo.testjbpm630.utils.WorkFlowHelper;
 
 /**
@@ -21,10 +22,14 @@ public class TestWorkFlowHelper {
 	@Autowired
 	private WorkFlowHelper workFlowHelper ; 
 	
+	@Autowired
+	private RuntimeEngineHolder runtimeEngineHolder ; 
+	
 	private Long processInstanceId ; 
 	
 	@Before
 	public void init(){
+		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
 		processInstanceId = workFlowHelper.startProcess("t2", "123") ; 
 	}
 	
