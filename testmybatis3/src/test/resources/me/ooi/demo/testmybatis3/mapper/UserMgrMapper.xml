@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.ooi.demo.testmybatis3.mapper.UserMgrMapper">
+	<select id="findUserByName" resultType="me.ooi.demo.testmybatis3.User" parameterType="java.lang.String">
+		<bind name="likeName" value="'%'+_parameter+'%'"/>
+		select * from user where name like #{likeName}
+	</select>
+	
+	<select id="test" resultType="java.lang.String">
+		select name from user
+	</select>
+	
+	<insert id="insertUser" parameterType="me.ooi.demo.testmybatis3.User">
+		insert into user(id, name, age) values(#{id},#{name},#{age})
+	</insert>
+</mapper>
