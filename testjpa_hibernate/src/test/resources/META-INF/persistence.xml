@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence version="1.0"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                                 http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd
+                                 http://java.sun.com/xml/ns/persistence/orm 
+                                 http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+             xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://java.sun.com/xml/ns/persistence">
+
+	<persistence-unit name="poi" transaction-type="RESOURCE_LOCAL">
+<!-- 	<persistence-unit name="poi" transaction-type="JTA"> -->
+    	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+    	
+    	<mapping-file>me/ooi/demo/testjpa_hibernate/po/User.hbm.xml</mapping-file>
+    	<class>me.ooi.demo.testjpa_hibernate.po.Project</class>
+    
+	    <properties>
+	    	<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+	    	<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+	    	<property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;useSSL=false" />
+	    	<property name="hibernate.connection.username" value="root" />
+	    	<property name="hibernate.connection.password" value="root" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="none" />
+	    </properties>
+	</persistence-unit>
+
+</persistence>

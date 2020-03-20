@@ -9,7 +9,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/testjbpm630?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true</property>
+        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;useSSL=false</property>
         <property name="connection.username">root</property>
         <property name="connection.password">root</property>
 
@@ -30,7 +30,10 @@
 
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">none</property>
-
+        
+        <mapping resource="me/ooi/demo/testhibernate420/po/User.hbm.xml"/>
+		<mapping class="me.ooi.demo.testhibernate420.po.Project"/>
+		
     </session-factory>
 
 </hibernate-configuration>

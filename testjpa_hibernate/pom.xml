@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>me.ooi.demo</groupId>
-  <artifactId>testhibernate420</artifactId>
+  <artifactId>testjpa_hibernate</artifactId>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -56,6 +56,5 @@
 		</dependency>
 		
 	</dependencies>
-
 
 </project>
