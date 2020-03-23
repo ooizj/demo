@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package namespace="/" name="testinterceptor" extends="struts-default">
+		<interceptors>
+			<interceptor name="loginCheck" class="me.ooi.demo.teststruts23.interceptor.AuthInterceptor">
+				<param name="excludePattern">(/login/toLoginPage)|(/login/login)</param>
+			</interceptor>
+			<interceptor-stack name="defaultInterceptor">
+				<interceptor-ref name="defaultStack">
+					<param name="exception.logEnabled">true</param>
+		        	<param name="exception.logLevel">ERROR</param>
+				</interceptor-ref>
+				<!-- 拦截器是按配置顺序执行的，当“loginCheck”拦截器抛出异常后，
+					在“defaultStack”里面的“exception”会捕获到该异常并根据exception-mappings进行处理 -->
+				<interceptor-ref name="loginCheck"/>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="defaultInterceptor"></default-interceptor-ref>
+		
+   		<global-results>
+        	<result name="login">/login.jsp</result>
+        	<result name="error">/error.jsp</result>
+        </global-results>
+        
+        <global-exception-mappings>
+        	<exception-mapping exception="me.ooi.demo.teststruts23.exception.AuthException" result="login"></exception-mapping>
+        	<exception-mapping exception="java.lang.Exception" result="error"></exception-mapping>
+        </global-exception-mappings>
+    </package>
+    
+    <package namespace="/login" name="login" extends="testinterceptor">
+    	<action name="testRequest" class="me.ooi.demo.teststruts23.action.LoginAction" method="test">
+            <result name="success">/index.jsp</result>
+        </action>
+    	<action name="toLoginPage" class="me.ooi.demo.teststruts23.action.LoginAction" method="toLoginPage">
+        </action>
+        <action name="login" class="me.ooi.demo.teststruts23.action.LoginAction" method="login">
+            <result name="success">/index.jsp</result>
+        </action>
+    </package>
+    
+</struts>

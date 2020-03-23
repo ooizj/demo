@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package namespace="/" name="helloworld" extends="struts-default">
+    </package>
+    
+    <package namespace="/hello-world" name="hello" extends="helloworld">
+        <action name="hello" class="me.ooi.demo.teststruts23.action.HelloWorldAction" method="hello">
+            <result name="success">/WEB-INF/content/hello-world.jsp</result>
+        </action>
+    </package>
+    
+</struts>
