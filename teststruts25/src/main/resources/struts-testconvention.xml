@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+	<!-- ========================struts2.5新增的========================start -->
+	
+	<!-- 在package“struts-default”中，“strict-method-invocation”默认就为true，
+		“convention-default”继承自“struts-default”，所以这里其实不用设置 -->
+	<package name="myDefault" extends="convention-default" strict-method-invocation="true"/>
+	
+	<!-- 开启动态调用后，被调用方法必须匹配下面的表达式，“([A-Za-z0-9_$]*)”是默认值 -->
+	<constant name="struts.strictMethodInvocation.methodRegex" value="([a-zA-Z]*)"/>
+	
+	<!-- ========================struts2.5新增的========================end -->
+	
+    
+    <!-- 开启动态方法调用，开启后可使用xxx!xxxMethod方式访问 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    
+    <constant name="struts.convention.action.suffix" value="Action"/>
+	<constant name="struts.convention.action.mapAllMatches" value="true"/>
+	<constant name="struts.convention.default.parent.package" value="myDefault"/>
+	<constant name="struts.convention.result.path" value="/WEB-INF/content"/>
+	<constant name="struts.convention.action.packages" value="me.ooi.demo.teststruts25.testconventionaction"/>
+	
+	<!--
+	If you are using REST with the Convention plugin, make sure you set these constants in struts.xml:
+	<constant name="struts.convention.action.suffix" value="Controller"/>
+	<constant name="struts.convention.action.mapAllMatches" value="true"/>
+	<constant name="struts.convention.default.parent.package" value="rest-default"/>
+	-->
+	
+</struts>

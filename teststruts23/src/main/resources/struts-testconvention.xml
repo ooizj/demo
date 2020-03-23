@@ -13,7 +13,11 @@
 	<constant name="struts.convention.result.path" value="/WEB-INF/content"/>
 	<constant name="struts.convention.action.packages" value="me.ooi.demo.teststruts23.testconventionaction"/>
 	
-<!-- 	<constant name="struts.convention.exclude.packages" value=""></constant> -->
-<!-- 	<constant name="struts.convention.package.locators" value=""></constant> -->
+	<!--
+	If you are using REST with the Convention plugin, make sure you set these constants in struts.xml:
+	<constant name="struts.convention.action.suffix" value="Controller"/>
+	<constant name="struts.convention.action.mapAllMatches" value="true"/>
+	<constant name="struts.convention.default.parent.package" value="rest-default"/>
+	-->
 	
 </struts>
