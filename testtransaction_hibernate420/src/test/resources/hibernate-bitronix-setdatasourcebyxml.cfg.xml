@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- Database connection settings -->
+        <property name="hibernate.connection.datasource">jdbc/btm-ds1</property>
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <property name="current_session_context_class">jta</property>
+        <property name="hibernate.transaction.factory_class">org.hibernate.engine.transaction.internal.jta.JtaTransactionFactory</property>
+<!--    这个也可以     <property name="hibernate.transaction.factory_class">org.hibernate.engine.transaction.internal.jta.CMTTransactionFactory</property> -->
+		<property name="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.BitronixJtaPlatform</property>
+        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+        <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">none</property>
+        
+        <mapping resource="me/ooi/demo/testhibernate420/po/User.hbm.xml"/>
+		<mapping class="me.ooi.demo.testhibernate420.po.Project"/>
+		
+    </session-factory>
+
+</hibernate-configuration>

@@ -9,6 +9,7 @@
 - [jdbc transaction](testtransaction_jdbc)
 - [atomikos transaction](testtransaction_atomikos)
 - [bitronix transaction](testtransaction_bitronix)
+- [hibernate4.2 transaction](testtransaction_hibernate420)
 
 - [jbpm6.3](testjbpm630)
 - [jbpm6.3+spring](testjbpm630_spring)
