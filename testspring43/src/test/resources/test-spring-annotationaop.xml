@@ -15,4 +15,7 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
+	<!-- if expose-proxy="true" then 可以在被代理类中使用AopContext.currentProxy()获取其对应的代理类 -->
+	<aop:aspectj-autoproxy expose-proxy="false"/>
+	
 </beans>

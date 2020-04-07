@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
 	
 	public int saveUser(String name){
+		
+//		System.out.println("生成的代理类："+AopContext.currentProxy().getClass());
+//		AopContext.currentProxy().xxx();
+		
 		System.out.println("saveUser");
 		return 1 ; 
 	}

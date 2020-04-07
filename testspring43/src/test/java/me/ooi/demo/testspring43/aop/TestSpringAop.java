@@ -19,7 +19,17 @@ public class TestSpringAop {
 	
 	@Test
 	public void t1(){
-		System.out.println(userService.getClass()); 
+		System.out.println(userService.getClass()); //class me.ooi.demo.testspring43.aop.UserService$$EnhancerBySpringCGLIB$$c5f19e5e
+	}
+	
+	@Test
+	public void t2(){
+		userService.saveUser("xm");
+	}
+	
+	@Test
+	public void t3(){
+		userService.updateUser("xm");
 	}
 	
 }

@@ -24,8 +24,8 @@
 			<aop:before method="pointcut1Before2" pointcut-ref="pointcut1"/>
 			<aop:after method="pointcut1After" pointcut-ref="pointcut1"/>
 			<aop:around method="pointcut1Around" pointcut-ref="pointcut1"/>
-			<aop:after-returning method="pointcut1AfterReturning" pointcut-ref="pointcut1"/>
-			<aop:after-throwing method="pointcut1AfterThrowing" pointcut-ref="pointcut2"/>
+			<aop:after-returning method="pointcut1AfterReturning" pointcut-ref="pointcut1" returning="ret"/>
+			<aop:after-throwing method="pointcut1AfterThrowing" pointcut-ref="pointcut2" throwing="throwable"/>
 		</aop:aspect>
 	</aop:config>
 	

@@ -26,10 +26,10 @@ public class UserAspect {
 	
 	//手动执行切入点的原方法
 	public Object pointcut1Around(ProceedingJoinPoint pjp) throws Throwable{
-		System.out.println("pointcut1Around before");
-		System.out.println("方法 "+pjp.getSignature().getName());
+		String methodName = pjp.getSignature().getName() ; 
+		System.out.println("pointcut1Around before "+methodName);
 		Object ret = pjp.proceed() ; 
-		System.out.println("pointcut1Around after");
+		System.out.println("pointcut1Around after "+methodName);
 		return ret ; 
 	}
 	

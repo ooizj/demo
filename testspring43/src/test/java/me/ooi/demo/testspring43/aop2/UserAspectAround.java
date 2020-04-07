@@ -23,10 +23,10 @@ public class UserAspectAround implements MethodBeforeAdvice, MethodInterceptor, 
 	//手动执行切入点的原方法
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		System.out.println("pointcut1Around before");
-		System.out.println("方法 "+invocation.getMethod().getName());
+		String methodName = invocation.getMethod().getName() ; 
+		System.out.println("pointcut1Around before "+methodName);
 		Object ret = invocation.proceed() ; 
-		System.out.println("pointcut1Around after");
+		System.out.println("pointcut1Around after "+methodName);
 		return ret ; 
 	}
 	

@@ -69,7 +69,7 @@
 		    <version>${spring.version}</version>
 		</dependency>
 		<dependency>
-	    <groupId>org.aspectj</groupId>
+	    	<groupId>org.aspectj</groupId>
 		    <artifactId>aspectjrt</artifactId>
 		    <version>1.8.13</version>
 		</dependency>
@@ -83,7 +83,6 @@
 		    <artifactId>cglib</artifactId>
 		    <version>2.2.2</version>
 		</dependency>
-		
 		<dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -93,6 +92,5 @@
         
 
 	</dependencies>
-
 
 </project>

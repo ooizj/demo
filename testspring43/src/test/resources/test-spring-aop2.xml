@@ -20,8 +20,8 @@
 	<aop:config>
 		<aop:pointcut id="pointcut1" expression="execution(* me.ooi.demo.testspring43.aop2.UserService2.saveUser(..))"/>
 		<aop:pointcut id="pointcut2" expression="execution(* me.ooi.demo.testspring43.aop2.UserService2.updateUser(..))"/>
-		<aop:advisor advice-ref="userAspectAround" pointcut="pointcut1"/>
-		<aop:advisor advice-ref="userAspectThrows" pointcut="pointcut2"/>
+		<aop:advisor advice-ref="userAspectAround" pointcut-ref="pointcut1"/>
+		<aop:advisor advice-ref="userAspectThrows" pointcut-ref="pointcut2"/>
 	</aop:config>
 	
 </beans>

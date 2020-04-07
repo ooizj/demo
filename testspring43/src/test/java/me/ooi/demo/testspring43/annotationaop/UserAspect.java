@@ -1,7 +1,5 @@
 package me.ooi.demo.testspring43.annotationaop;
 
-import javax.annotation.PostConstruct;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -21,16 +19,12 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class UserAspect {
 
-	@PostConstruct public void init(){
-		System.out.println("ffffffff");
-	}
-	
 	@Pointcut("execution(* me.ooi.demo.testspring43.annotationaop.UserService.saveUser(..))")
 	public void pointcut1() {}
 	
 	@Pointcut("execution(* me.ooi.demo.testspring43.annotationaop.UserService.updateUser(..))")
 	public void pointcut2() {}
-	 
+	
 	//在切入点之前执行
 	@Before("pointcut1()")
 	public void pointcut1Before(JoinPoint jp){
@@ -52,10 +46,10 @@ public class UserAspect {
 	//手动执行切入点的原方法
 	@Around("pointcut1()")
 	public Object pointcut1Around(ProceedingJoinPoint pjp) throws Throwable{
-		System.out.println("pointcut1Around before");
-		System.out.println("方法 "+pjp.getSignature().getName());
+		String methodName = pjp.getSignature().getName() ; 
+		System.out.println("pointcut1Around before "+methodName);
 		Object ret = pjp.proceed() ; 
-		System.out.println("pointcut1Around after");
+		System.out.println("pointcut1Around after "+methodName);
 		return ret ; 
 	}
 	
