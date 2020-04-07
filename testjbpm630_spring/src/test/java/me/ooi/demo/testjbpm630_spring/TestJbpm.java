@@ -81,6 +81,7 @@ public class TestJbpm {
 		taskService.complete(taskId, actorId, data) ; 
 		
 		//第二个节点
+		actorId = "u2" ; 
 		readyTask = getReadyTaskByProcessInstanceId(processInstanceId) ; 
 		if( readyTask == null ){
 			System.out.println("error! ready task is empty!");

@@ -84,7 +84,8 @@ public class TestJbpm {
 			
 			//审批最后一个节点（一共两个节点）
 			readyTask = workFlowHelper.getReadyTaskByProcessInstanceId(processInstanceId) ; 
-			workFlowHelper.doTask(processInstanceId, readyTask.getId(), "222");
+//			workFlowHelper.doTask(processInstanceId, readyTask.getId(), "qwe");
+			workFlowHelper.doTask(processInstanceId, readyTask.getId(), "u2");
 			
 			ut.commit(); //commit transaction
 		} catch (Exception e) {
