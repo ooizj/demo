@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+  http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd">
+
+	<context:component-scan base-package="me.ooi.demo.testspring43_tx.jpajta"/>
+	<context:property-placeholder location="jdbc.properties" file-encoding="utf-8"/>
+	
+	<!-- 	Bitronix BTM -->
+	<bean id="abstractDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" abstract="true" init-method="init" destroy-method="close">
+		<property name="acquireIncrement" value="1"/>
+		<property name="acquisitionInterval" value="1"/>
+		<property name="acquisitionTimeout" value="120"/>
+		<property name="allowLocalTransactions" value="true"/>
+		<property name="automaticEnlistingEnabled" value="true"/>
+		<property name="enableJdbc4ConnectionTest" value="true"/>
+		<property name="ignoreRecoveryFailures" value="false"/>
+		<property name="isolationLevel" value="READ_COMMITTED"/>
+		<property name="maxIdleTime" value="60"/>
+		<property name="maxLifeTime" value="300"/>
+		<property name="minPoolSize" value="1"/>
+		<property name="maxPoolSize" value="5"/>
+		<property name="preparedStatementCacheSize" value="0"/>
+		<property name="shareTransactionConnections" value="false"/>
+		<property name="useTmJoin" value="true"/>
+	</bean>
+	<bean id="ds1" parent="abstractDataSource">
+		<property name="uniqueName" value="jdbc/btm-ds1" />
+		<property name="className" value="${ds1.xaDatasourceClassName}" />
+		<property name="driverProperties">
+		  <props>
+		    <prop key="URL">${ds1.url}</prop>
+		    <prop key="user">${ds1.username}</prop>
+		    <prop key="password">${ds1.password}</prop>
+		  </props>
+		</property>
+	</bean>
+	<bean id="ds2" parent="abstractDataSource">
+		<property name="uniqueName" value="jdbc/btm-ds2" />
+		<property name="className" value="${ds2.xaDatasourceClassName}" />
+		<property name="driverProperties">
+		  <props>
+		    <prop key="URL">${ds2.url}</prop>
+		    <prop key="user">${ds2.username}</prop>
+		    <prop key="password">${ds2.password}</prop>
+		  </props>
+		</property>
+	</bean>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="poi"/>
+    	<property name="jtaDataSource" ref="ds1"/>
+		<property name="persistenceProvider">
+            <bean class="org.hibernate.ejb.HibernatePersistence"/>
+        </property>
+    	<property name="packagesToScan" value="me.ooi.demo.testhibernate420.po"/>
+    	<property name="jpaProperties">
+    		<props>
+    			<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+    			<prop key="hibernate.show_sql">true</prop>
+    			<prop key="hibernate.hbm2ddl.auto">none</prop>
+    			<prop key="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.BitronixJtaPlatform</prop>
+    		</props>
+    	</property>
+    </bean>
+    
+	<bean id="bitronixTransactionManager" factory-method="getTransactionManager" class="bitronix.tm.TransactionManagerServices" 
+	  	destroy-method="shutdown"/>
+	  	
+	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" primary="true">
+		<property name="transactionSynchronizationRegistryName" value="java:comp/TransactionSynchronizationRegistry"/>
+		<property name="transactionManager" ref="bitronixTransactionManager" />
+		<property name="userTransaction" ref="bitronixTransactionManager" />
+		<property name="allowCustomIsolationLevels" value="true" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+    
+</beans>

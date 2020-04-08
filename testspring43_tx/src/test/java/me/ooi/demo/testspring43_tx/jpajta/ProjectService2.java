@@ -1,0 +1,104 @@
+package me.ooi.demo.testspring43_tx.jpajta;
+
+import java.sql.Connection;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import me.ooi.demo.testhibernate420.po.Project;
+import me.ooi.demo.testspring43_tx.QueryUtils;
+
+/**
+ * @author jun.zhao
+ * @since 1.0
+ */
+@Service
+public class ProjectService2 {
+	
+	@Autowired
+	private EntityManagerFactory emf ; 
+	
+	@Autowired
+	@Qualifier("ds2")
+	private DataSource ds2 ; 
+	
+	@Transactional
+	public int deleteAllProject() {
+		EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager(emf) ; 
+		em.createQuery("delete from Project").executeUpdate() ; 
+		
+		QueryUtils.deleteAllUser2(DataSourceUtils.getConnection(ds2));
+		return 1 ; 
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Transactional
+	public int findAllProject() {
+		EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager(emf) ; 
+		List list = em.createQuery("select u from Project u").getResultList() ; 
+		System.out.println(list);
+		
+		Connection con = DataSourceUtils.getConnection(ds2) ;
+		QueryUtils.findAllUser2(con);
+		return 1 ; 
+	}
+	
+	@Transactional
+	public int saveProject(String name){
+		EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager(emf) ; 
+		Project u = new Project() ; 
+		u.setName(name);
+		em.persist(u);
+		
+		Connection con = DataSourceUtils.getConnection(ds2) ;
+		QueryUtils.insertUser2(con, name);
+		
+		return 1 ; 
+	}
+	
+	@Transactional
+	public int testRollBack(String name){
+		EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager(emf) ; 
+		Project u = new Project() ; 
+		u.setName(name);
+		em.persist(u);
+		
+		Connection con = DataSourceUtils.getConnection(ds2) ;
+		QueryUtils.insertUser2(con, name);
+		
+		System.out.println(3/0);
+		return 1 ; 
+	}
+	
+	@Transactional
+	public int testRollBack2(String name){
+		Connection con = DataSourceUtils.getConnection(ds2) ;
+		QueryUtils.insertUser2(con, name);
+		
+		EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager(emf) ; 
+		Project u = new Project() ; 
+		u.setName(name);
+		em.persist(u);
+		
+		System.out.println(3/0);
+		return 1 ; 
+	}
+	
+	@Transactional
+	public int testConnectionPool(String name){
+		for (int i = 0; i < 6; i++) {
+			saveProject(name) ; 
+		}
+		return 1 ; 
+	}
+	
+}

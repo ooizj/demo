@@ -9,6 +9,8 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import me.ooi.demo.testspring43_tx.QueryUtils;
+
 /**
  * @author jun.zhao
  * @since 1.0
@@ -33,8 +35,8 @@ public class UserService {
 	
 	@Transactional
 	public int saveUser(String name){
-		Connection con2 = DataSourceUtils.getConnection(dataSource) ;
-		QueryUtils.insertUser2(con2, name);
+		Connection con = DataSourceUtils.getConnection(dataSource) ;
+		QueryUtils.insertUser2(con, name);
 		return 1 ; 
 	}
 	

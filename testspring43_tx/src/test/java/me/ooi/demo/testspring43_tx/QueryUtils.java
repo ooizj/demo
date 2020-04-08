@@ -1,4 +1,4 @@
-package me.ooi.demo.testspring43_tx.jdbc;
+package me.ooi.demo.testspring43_tx;
 
 
 import java.sql.Connection;
