@@ -5,6 +5,8 @@
 - [mybatis3](testmybatis3)
 - [mybatis3+spring](testmybatis3_spring)
 - [jpa+hibernate](testjpa_hibernate)
+- [spring4.3](testspring43)
+- [spring4.3 transaction manager](testspring43_tx)
 
 - [jdbc transaction](testtransaction_jdbc)
 - [atomikos transaction](testtransaction_atomikos)
