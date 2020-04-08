@@ -54,14 +54,35 @@ public class ProjectService2 {
 	
 	@Transactional
 	public int saveProject(String name){
+		
+		System.out.println("saveProject:"+Thread.currentThread().getId());
+		
 		EntityManager em = EntityManagerFactoryUtils.getTransactionalEntityManager(emf) ; 
 		Project u = new Project() ; 
 		u.setName(name);
 		em.persist(u);
 		
 		Connection con = DataSourceUtils.getConnection(ds2) ;
+		System.out.println(con); //same in current thread
 		QueryUtils.insertUser2(con, name);
 		
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {}
+		
+		System.out.println("saveProject:"+Thread.currentThread().getId()+":ok");
+		return 1 ; 
+	}
+	
+	@Transactional
+	public int save60Project(String name){
+		for (int i = 0; i < 60; i++) {
+			saveProject(name);
+		}
+		
+		try {
+			Thread.sleep(1000*1);
+		} catch (InterruptedException e) {}
 		return 1 ; 
 	}
 	
@@ -90,14 +111,6 @@ public class ProjectService2 {
 		em.persist(u);
 		
 		System.out.println(3/0);
-		return 1 ; 
-	}
-	
-	@Transactional
-	public int testConnectionPool(String name){
-		for (int i = 0; i < 6; i++) {
-			saveProject(name) ; 
-		}
 		return 1 ; 
 	}
 	
