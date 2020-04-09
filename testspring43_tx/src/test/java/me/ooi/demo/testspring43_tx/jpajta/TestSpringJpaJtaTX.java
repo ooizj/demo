@@ -15,11 +15,13 @@ public class TestSpringJpaJtaTX {
 	
 	private ClassPathXmlApplicationContext ctx ; 
 	private ProjectService2 projectService ; 
+	private ProjectService3 projectService3 ; 
 	
 	@Before
 	public void before(){
 		ctx = new ClassPathXmlApplicationContext("test-spring-jpa-jta-tx.xml") ; 
 		projectService = ctx.getBean(ProjectService2.class) ; 
+		projectService3 = ctx.getBean(ProjectService3.class) ; 
 		projectService.deleteAllProject();
 	}
 	
@@ -41,17 +43,22 @@ public class TestSpringJpaJtaTX {
 	
 	@Test
 	public void t3(){
-		projectService.testRollBack("xm");
+		projectService.saveProject2("xm");
 	}
 	
 	@Test
 	public void t4(){
-		projectService.testRollBack2("xm");
+		projectService.save60Project("xm");
 	}
 	
 	@Test
-	public void t5(){
-		projectService.save60Project("xm");
+	public void testRollBack(){
+		projectService.testRollBack("xm");
+	}
+	
+	@Test
+	public void testRollBack2(){
+		projectService.testRollBack2("xm");
 	}
 	
 	@Test
@@ -70,6 +77,11 @@ public class TestSpringJpaJtaTX {
 		while( counter.get() != 0 ){
 			Thread.sleep(10);
 		}
+	}
+	
+	@Test
+	public void t5(){
+		projectService3.saveProject4("sss");
 	}
 	
 }

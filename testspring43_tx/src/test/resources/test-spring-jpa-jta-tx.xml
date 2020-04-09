@@ -54,10 +54,38 @@
 		  </props>
 		</property>
 	</bean>
+	<bean id="ds3" parent="abstractDataSource">
+		<property name="uniqueName" value="jdbc/btm-ds3" />
+		<property name="className" value="${ds3.xaDatasourceClassName}" />
+		<property name="driverProperties">
+		  <props>
+		    <prop key="URL">${ds3.url}</prop>
+		    <prop key="user">${ds3.username}</prop>
+		    <prop key="password">${ds3.password}</prop>
+		  </props>
+		</property>
+	</bean>
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="poi"/>
     	<property name="jtaDataSource" ref="ds1"/>
+		<property name="persistenceProvider">
+            <bean class="org.hibernate.ejb.HibernatePersistence"/>
+        </property>
+    	<property name="packagesToScan" value="me.ooi.demo.testhibernate420.po"/>
+    	<property name="jpaProperties">
+    		<props>
+    			<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+    			<prop key="hibernate.show_sql">true</prop>
+    			<prop key="hibernate.hbm2ddl.auto">none</prop>
+    			<prop key="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.BitronixJtaPlatform</prop>
+    		</props>
+    	</property>
+    </bean>
+    
+    <bean id="entityManagerFactory3" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="poi3"/>
+    	<property name="jtaDataSource" ref="ds3"/>
 		<property name="persistenceProvider">
             <bean class="org.hibernate.ejb.HibernatePersistence"/>
         </property>
@@ -83,5 +111,6 @@
 	</bean>
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<aop:aspectj-autoproxy expose-proxy="true"/>
     
 </beans>
