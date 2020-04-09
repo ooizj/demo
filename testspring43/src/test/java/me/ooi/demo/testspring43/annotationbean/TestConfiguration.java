@@ -2,7 +2,6 @@ package me.ooi.demo.testspring43.annotationbean;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,22 +16,6 @@ import me.ooi.demo.testspring43.World;
  */
 @Configuration
 public class TestConfiguration {
-	
-	@Autowired
-	@Qualifier("u1")
-	private User u1 ; 
-	
-	@Autowired
-	@Qualifier("u1")
-	private User u2 ; 
-	
-	@Autowired
-	@Qualifier("u0")
-	private User u01 ; 
-	
-	@Autowired
-	@Qualifier("u0")
-	private User u02 ; 
 	
 	@Scope("prototype")
 	@Bean
@@ -52,7 +35,12 @@ public class TestConfiguration {
 
 	@Scope("singleton")
 	@Bean(name="w")
-	public World w(){
+	public World w(
+			@Qualifier("u1") User u1, 
+			@Qualifier("u1") User u2, 
+			@Qualifier("u0") User u01, 
+			@Qualifier("u0") User u02){
+		
 		World w = new World() ; 
 		w.setUsers(new ArrayList<>());
 		w.getUsers().add(u1) ; 
