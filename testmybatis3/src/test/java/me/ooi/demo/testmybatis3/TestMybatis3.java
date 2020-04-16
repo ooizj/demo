@@ -58,4 +58,50 @@ public class TestMybatis3 {
 		}
 	}
 	
+	@Test
+	public void testSaveUser() throws IOException{
+		String resource = "mybatis-config.xml";
+		InputStream inputStream = Resources.getResourceAsStream(resource);
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+		try (SqlSession session = sqlSessionFactory.openSession()){
+			UserMapper um = session.getMapper(UserMapper.class) ;
+			
+			um.deleteUser() ; 
+			
+			User u = new User() ; 
+			u.setName("xiaoming");
+			um.addUser(u); 
+			
+			List<User> users = um.findUser(new RowBounds(0, 10)) ;
+			System.out.println(users);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testPlugin1() throws IOException{
+		String resource = "mybatis-config-testplugin.xml";
+		InputStream inputStream = Resources.getResourceAsStream(resource);
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+		try (SqlSession session = sqlSessionFactory.openSession()){
+			UserMapper um = session.getMapper(UserMapper.class) ;
+			
+			um.deleteUser() ; 
+			
+			User u = new User() ; 
+			u.setName("xiaoming");
+			um.addUser(u); 
+			
+			List<User> users = um.findUser(new RowBounds(0, 10)) ;
+			System.out.println(users);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

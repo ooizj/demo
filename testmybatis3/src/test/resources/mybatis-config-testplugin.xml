@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!-- 官方文档：https://mybatis.org/mybatis-3/zh/configuration.html -->
+	<properties resource="jdbc.properties"/>
+	<settings>
+		<!-- mapUnderscoreToCamelCase 是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 
+			到经典 Java 属性名 aColumn 的类似映射。 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="logImpl" value="LOG4J" />
+	</settings>
+	<plugins>
+<!-- 	  <plugin interceptor="me.ooi.demo.testmybatis3.plugin.ExamplePlugin"> -->
+<!-- 	    <property name="someProperty" value="100"/> -->
+<!-- 	  </plugin> -->
+	  <plugin interceptor="me.ooi.demo.testmybatis3.plugin.PrintSelectSqlPlugin"/>
+	</plugins>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="me/ooi/demo/testmybatis3/mapper/UserMgrMapper.xml"/>
+		<package name="me.ooi.demo.testmybatis3.mapper"/>
+	</mappers>
+</configuration>
