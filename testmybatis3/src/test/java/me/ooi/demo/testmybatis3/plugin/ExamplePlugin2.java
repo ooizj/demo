@@ -31,7 +31,7 @@ import org.apache.ibatis.session.RowBounds;
 	@Signature(type = Executor.class, method = "query", args = { 
 			MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
 	})
-public class PrintSelectSqlPlugin implements Interceptor {
+public class ExamplePlugin2 implements Interceptor {
 	
 	private Properties properties = new Properties();
 

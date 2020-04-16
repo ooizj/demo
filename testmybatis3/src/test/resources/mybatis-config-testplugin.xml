@@ -15,7 +15,7 @@
 <!-- 	  <plugin interceptor="me.ooi.demo.testmybatis3.plugin.ExamplePlugin"> -->
 <!-- 	    <property name="someProperty" value="100"/> -->
 <!-- 	  </plugin> -->
-	  <plugin interceptor="me.ooi.demo.testmybatis3.plugin.PrintSelectSqlPlugin"/>
+	  <plugin interceptor="me.ooi.demo.testmybatis3.plugin.PrintSqlPlugin"/>
 	</plugins>
 	<environments default="development">
 		<environment id="development">
