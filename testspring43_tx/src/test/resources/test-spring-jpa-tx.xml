@@ -41,5 +41,6 @@
     </bean>
     
     <tx:annotation-driven transaction-manager="txManager"/>
+    <aop:aspectj-autoproxy expose-proxy="true"/> 
     
 </beans>

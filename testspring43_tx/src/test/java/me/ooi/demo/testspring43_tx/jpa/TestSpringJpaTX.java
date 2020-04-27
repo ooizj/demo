@@ -42,4 +42,10 @@ public class TestSpringJpaTX {
 		projectService.saveProject2("xm");
 	}
 	
+	//test for org.springframework.transaction.TransactionSystemException: Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Transaction marked as rollbackOnly
+	@Test
+	public void markedAsRollbackErrorTest(){
+		projectService.markedAsRollbackErrorTest();
+	}
+	
 }

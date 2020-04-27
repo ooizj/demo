@@ -42,4 +42,10 @@ public class TestSpringJdbcTX {
 		userService.saveUser2("xm");
 	}
 	
+	@Test
+	public void testRegisterSynchronization(){
+		userService.testRegisterSynchronization("ff") ; 
+		System.out.println("hello");
+	}
+	
 }

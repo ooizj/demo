@@ -92,4 +92,10 @@ public class TestSpringJpaJtaTX {
 		projectService4.saveProject4("sss");
 	}
 	
+	//test for : JTA transaction unexpectedly rolled back (maybe due to a timeout); nested exception is bitronix.tm.internal.BitronixRollbackException: transaction was marked as rollback only and has been rolled back
+	@Test
+	public void markedAsRollbackErrorTest(){
+		projectService4.markedAsRollbackErrorTest();
+	}
+	
 }
