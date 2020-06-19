@@ -76,6 +76,16 @@
 		        </exclusion>
 		    </exclusions>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-actuator</artifactId>
+		    <version>${spring.boot.version}</version>
+		</dependency>
+		
+		
+		
+		
 		
 	    <dependency>
 	        <groupId>org.springframework.boot</groupId>
@@ -90,11 +100,20 @@
 		    <version>2.0.1</version>
 		</dependency>
 		
+<!-- 		<dependency> -->
+<!-- 		  <groupId>org.springframework.boot</groupId> -->
+<!-- 		  <artifactId>spring-boot-starter-data-redis</artifactId> -->
+<!-- 		  <version>${spring.boot.version}</version> -->
+<!-- 		</dependency> -->
+		
 		<dependency>
-		  <groupId>org.springframework.boot</groupId>
-		  <artifactId>spring-boot-starter-data-redis</artifactId>
-		  <version>${spring.boot.version}</version>
-		</dependency>
+	         <groupId>org.redisson</groupId>
+	         <artifactId>redisson-spring-boot-starter</artifactId>
+	         <version>3.11.2</version>
+	     </dependency>
+		
+		
+		
 		
 		<dependency>
 		    <groupId>com.alibaba</groupId>
@@ -109,6 +128,7 @@
 		</dependency>
 		
 	</dependencies>
+	
 	
 	<build>
 		<plugins>
