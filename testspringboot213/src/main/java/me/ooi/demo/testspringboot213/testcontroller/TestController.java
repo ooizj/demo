@@ -1,6 +1,7 @@
 package me.ooi.demo.testspringboot213.testcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,8 @@ import me.ooi.demo.testspringboot213.service.UserService;
 @Slf4j
 public class TestController {
 	
-//	@Autowired
-//	private UserMapper userMapper;
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 	
 	@Autowired
 	private UserService userService;
@@ -39,6 +40,19 @@ public class TestController {
 		}
 		
 		return "this is a page.";
+	}
+	
+	
+	@GetMapping("/testget2")
+	@ResponseBody
+	public String testget2() {
+		log.info("testget2");
+		
+		redisTemplate.opsForValue().set("k1", "kkk");
+		
+		System.out.println(redisTemplate.opsForValue().get("k1"));
+		
+		return "this is a page2.";
 	}
 	
 }
