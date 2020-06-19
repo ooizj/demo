@@ -80,7 +80,7 @@ public class UserService {
 		Connection con = DataSourceUtils.getConnection(dataSource) ;
 		QueryUtils.insertUser2(con, name);
 		
-//		int a = 3/0;
+		int a = 3/0;
 		
 		return 1 ; 
 	}
