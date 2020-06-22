@@ -31,31 +31,35 @@ public class TestLockController {
 	public String testLock() {
 		log.info("testLock");
 		
-//		RLock lock = redissonClient.getLock("lock1");
-//		
-//		// 加锁以后10秒钟自动解锁
-//		// 无需调用unlock方法手动解锁
-//		lock.lock(10, TimeUnit.SECONDS);
-//
-//		try {
-//			// 尝试加锁，最多等待2秒
-//			boolean res = lock.tryLock(2, TimeUnit.SECONDS);
-//			if (res) {
-//			   try {
-//			     
-//				   System.out.println("1");
-//				   Thread.sleep(1000);
-//				   
-//			   } finally {
-//			       lock.unlock();
-//			   }
-//			}
-//		} catch (InterruptedException e) {
-//			log.error(e.getMessage(), e);
-//		}
+		long st = System.currentTimeMillis();
 		
+		System.out.println("收到请求："+Thread.currentThread().getId()+" start");
 		
-		return "this is a page.";
+		RLock lock = redissonClient.getLock("lock1");
+		try {
+			// 尝试加锁，最多等待2秒
+			boolean res = lock.tryLock(1, 20, TimeUnit.SECONDS);
+			if (res) {
+			   try {
+			     
+				   System.out.println("1");
+				   Thread.sleep(3000);
+				   
+			   } finally {
+			       lock.unlock();
+			   }
+			}else {
+				System.out.println("不等了。。。");
+			}
+		} catch (InterruptedException e) {
+			log.error(e.getMessage(), e);
+		}
+		
+		long et = System.currentTimeMillis();
+		
+		System.out.println("收到请求："+Thread.currentThread().getId()+" end");
+		
+		return "this is a page.(耗时："+TimeUnit.MILLISECONDS.toSeconds(et-st)+")";
 	}
 	
 }
