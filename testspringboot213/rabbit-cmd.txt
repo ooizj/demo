@@ -1,0 +1,14 @@
+# 添加vhost
+.\rabbitmqctl.bat add_vhost vh1
+
+# 添加用戶名密碼
+.\rabbitmqctl.bat add_user admin admin
+
+# 授权 set_topic_permissions [-p vhost] user exchange write read
+.\rabbitmqctl.bat set_permissions -p vh1 admin ".*" ".*" ".*"
+
+# 启用控制台
+.\rabbitmq-plugins.bat enable rabbitmq_management
+
+# tag the user with "administrator" for full management UI and HTTP API access
+.\rabbitmqctl.bat set_user_tags admin administrator

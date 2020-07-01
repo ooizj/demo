@@ -24,3 +24,14 @@ spring:
   port: 6379
   # Redis服务器连接密码（默认为空）
   password: 
+
+
+#RabbitMQ
+spring.rabbitmq.host: localhost
+spring.rabbitmq.port: 5672
+spring.rabbitmq.virtual-host: vh1
+spring.rabbitmq.username: admin
+spring.rabbitmq.password: admin
+
+
+

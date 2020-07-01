@@ -35,15 +35,25 @@ public class MyTest1 {
 		for (int i = 0; i < 10; i++) {
 			count.incrementAndGet();
 			new Thread(()->{
-
 				try {
 					System.out.println("hello-"+restTemplate.getForObject("http://localhost:" + port + "/testlock/testLock",
 							String.class));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
-				
+				count.decrementAndGet();
+			}).start();
+		}
+		
+		for (int i = 0; i < 10; i++) {
+			count.incrementAndGet();
+			new Thread(()->{
+				try {
+					System.out.println("hello-"+restTemplate.getForObject("http://localhost:" + 10001 + "/testlock/testLock",
+							String.class));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				count.decrementAndGet();
 			}).start();
 		}
@@ -53,9 +63,82 @@ public class MyTest1 {
 		}
 		
 		long et = System.currentTimeMillis() ;
-		System.out.println("耗时："+(et-st));
+		System.out.println("耗时:"+(et-st));
 
 		Thread.sleep(1000);
 	}
+	
+	@Test
+	public void t3() throws InterruptedException {
+		TestRestTemplate restTemplate = new TestRestTemplate();
+		
+		long st = System.currentTimeMillis() ;
+		AtomicInteger count = new AtomicInteger(0) ;
+		//100000000
+		for (int i = 0; i < 10; i++) {
+			count.incrementAndGet();
+			new Thread(()->{
+				try {
+					System.out.println("hello-"+restTemplate.getForObject("http://localhost:" + port + "/testlock/testLock2",
+							String.class));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				count.decrementAndGet();
+			}).start();
+		}
+		
+		for (int i = 0; i < 10; i++) {
+			count.incrementAndGet();
+			new Thread(()->{
+				try {
+					System.out.println("hello-"+restTemplate.getForObject("http://localhost:" + 10001 + "/testlock/testLock2",
+							String.class));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				count.decrementAndGet();
+			}).start();
+		}
 
+		while( count.get() > 0 ){
+			Thread.sleep(10);
+		}
+		
+		long et = System.currentTimeMillis() ;
+		System.out.println("耗时:"+(et-st));
+
+		Thread.sleep(1000);
+	}
+	
+	@Test
+	public void t4() throws InterruptedException {
+		TestRestTemplate restTemplate = new TestRestTemplate();
+		
+		long st = System.currentTimeMillis() ;
+		AtomicInteger count = new AtomicInteger(0) ;
+		
+		for (int i = 0; i < 10; i++) {
+			count.incrementAndGet();
+			new Thread(()->{
+				try {
+					System.out.println("hello-"+restTemplate.getForObject("http://localhost:" + port + "/testlock/testLock3",
+							String.class));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				count.decrementAndGet();
+			}).start();
+		}
+		
+		while( count.get() > 0 ){
+			Thread.sleep(10);
+		}
+		
+		long et = System.currentTimeMillis() ;
+		System.out.println("耗时:"+(et-st));
+
+		Thread.sleep(1000);
+	}
+	
 }
