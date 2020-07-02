@@ -18,6 +18,9 @@ public class SpringTest1 {
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 	
+	@Autowired
+	private TestRabbitMQTransaction testRabbitMQTransaction;
+	
 	@Test
 	public void t1() {
 		rabbitTemplate.convertAndSend(RabbitMQConfig.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ!");
@@ -32,6 +35,27 @@ public class SpringTest1 {
 	public void t3() {
 		String message = (String) rabbitTemplate.receiveAndConvert(RabbitMQConfig.queueName2);
 		System.out.println(message);
+	}
+	
+	
+	@Test
+	public void testWrite() {
+		testRabbitMQTransaction.testWrite();
+	}
+	
+	@Test
+	public void testWrite2() {
+		testRabbitMQTransaction.testWrite2();
+	}
+	
+	@Test
+	public void testWrite3() {
+		testRabbitMQTransaction.testWrite3();
+	}
+	
+	@Test
+	public void testRead() {
+		testRabbitMQTransaction.testRead();
 	}
 
 }

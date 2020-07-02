@@ -16,5 +16,5 @@ public class RedisConfig {
 	public StringRedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		return new StringRedisTemplate(redisConnectionFactory);
 	}
-
+	
 }
