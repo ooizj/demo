@@ -46,7 +46,7 @@ public class RabbitMQConfig {
 	}
 	
 	//注意：开启事务后报错会不断重试
-	@RabbitListener(queuesToDeclare = {@org.springframework.amqp.rabbit.annotation.Queue(name = "q3")})
+	@RabbitListener(queuesToDeclare = {@org.springframework.amqp.rabbit.annotation.Queue(name = "q3")}) /*不存在则创建队列*/
 	public void testListener(byte[] data) {
 		try {
 			System.out.println("receive q3 message:"+new String(data, "utf-8"));
