@@ -7,6 +7,8 @@
 - [jpa+hibernate](testjpa_hibernate)
 - [spring4.3](testspring43)
 - [spring4.3 transaction manager](testspring43_tx)
+- [spring-boot2.1.3](testspringboot213)
+
 
 - [jdbc transaction](testtransaction_jdbc)
 - [atomikos transaction](testtransaction_atomikos)
@@ -21,3 +23,4 @@
 - [kafka2.1.0](testkafka210)
 - [kafka2.1.0 streams](testkafka210_streams)
 
+- [zookeeper3.6.1](testzookeeper361)
