@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:application-context.xml</param-value>
+  </context-param>
+  <servlet>
+    <description></description>
+    <display-name>TestConcurrentServlet</display-name>
+    <servlet-name>TestConcurrentServlet</servlet-name>
+    <servlet-class>me.ooi.demo.testjbpm630_spring_intomcat.TestConcurrentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestConcurrentServlet</servlet-name>
+    <url-pattern>/TestConcurrentServlet</url-pattern>
+  </servlet-mapping>
+  <display-name>testjbpm630_spring_intomcat</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>TestTransactionServlet</display-name>
+    <servlet-name>TestTransactionServlet</servlet-name>
+    <servlet-class>me.ooi.demo.testjbpm630_spring_intomcat.TestTransactionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestTransactionServlet</servlet-name>
+    <url-pattern>/TestTransactionServlet</url-pattern>
+  </servlet-mapping>
+</web-app>

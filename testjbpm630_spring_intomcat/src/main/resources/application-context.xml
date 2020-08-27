@@ -16,8 +16,8 @@
 	   					   http://www.springframework.org/schema/aop
 	   					   http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 
-	<context:component-scan base-package="me.ooi.demo.testjbpm630_spring" />
-	<context:property-placeholder location="jdbc.properties" file-encoding="utf-8"/>
+	<context:component-scan base-package="me.ooi.demo.testjbpm630_spring_intomcat" />
+	<context:property-placeholder location="classpath:jdbc.properties" file-encoding="utf-8"/>
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml"/>
@@ -55,12 +55,38 @@
 	<bean id="bitronixTransactionManager" factory-method="getTransactionManager" class="bitronix.tm.TransactionManagerServices" 
 	  	destroy-method="shutdown"/>
 	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" primary="true">
-		<property name="transactionSynchronizationRegistryName" value="java:comp/TransactionSynchronizationRegistry"/>
+<!-- 		<property name="transactionSynchronizationRegistryName" value="java:comp/TransactionSynchronizationRegistry"/> -->
 		<property name="transactionManager" ref="bitronixTransactionManager" />
 		<property name="userTransaction" ref="bitronixTransactionManager" />
 		<property name="allowCustomIsolationLevels" value="true" />
 	</bean>
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	
+	<!-- mybatis -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath*:/me/ooi/demo/testjbpm630_spring_intomcat/mybatis/**/*.xml" />
+		<!-- 1.3之后可用如下配置 -->
+		<property name="configuration">
+		<bean class="org.apache.ibatis.session.Configuration">
+			<property name="mapUnderscoreToCamelCase" value="true"/>
+		</bean>
+		</property>
+		<!-- 若使用CMT，则需要配置transactionFactory为ManagedTransactionFactory  -->
+		<property name="transactionFactory">
+			<bean class="org.apache.ibatis.transaction.managed.ManagedTransactionFactory" />
+		</property>
+	</bean>
+	<!-- 没有必要在 Spring 的 XML 配置文件中注册所有的映射器。相反,你可以使用一个 MapperScannerConfigurer , 它 将 会 查 找 类 路 径 下 的 映 射 器 并 自 动 将 它 们 创 建 成 MapperFactoryBean。 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<!-- 		basePackage 属性是让你为映射器接口文件设置基本的包路径。 你可以使用分号或逗号 作为分隔符设置多于一个的包路径。每个映射器将会在指定的包路径中递归地被搜索到。 -->
+		<property name="basePackage" value="me.ooi.demo.testjbpm630_spring_intomcat.mybatis"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
 	
 </beans>
