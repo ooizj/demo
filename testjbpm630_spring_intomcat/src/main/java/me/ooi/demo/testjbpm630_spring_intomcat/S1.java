@@ -14,6 +14,7 @@ public class S1 {
 	@Autowired
 	private S2 s2;
 	
+	//test: transaction was marked as rollback only and has been rolled back
 	@Transactional
 	public void t() {
 		try {

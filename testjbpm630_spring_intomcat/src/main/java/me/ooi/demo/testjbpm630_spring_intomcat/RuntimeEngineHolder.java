@@ -22,6 +22,7 @@ import org.kie.internal.runtime.manager.context.EmptyContext;
 import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ import org.springframework.transaction.support.AbstractPlatformTransactionManage
 * @author jun.zhao
 * @since 1.0
 */
+@Profile("java")
 @Scope(proxyMode=ScopedProxyMode.TARGET_CLASS, value=BeanDefinition.SCOPE_SINGLETON)
 @Component
 public class RuntimeEngineHolder {

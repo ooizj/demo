@@ -7,6 +7,10 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:application-context.xml</param-value>
   </context-param>
+  <context-param>
+	    <param-name>spring.profiles.active</param-name>
+	    <param-value>xml</param-value>
+	</context-param>
   <servlet>
     <description></description>
     <display-name>TestConcurrentServlet</display-name>

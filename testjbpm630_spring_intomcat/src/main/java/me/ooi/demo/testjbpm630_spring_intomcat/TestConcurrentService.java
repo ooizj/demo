@@ -1,13 +1,10 @@
 package me.ooi.demo.testjbpm630_spring_intomcat;
 
-import javax.annotation.PostConstruct;
-
 import org.kie.api.task.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import me.ooi.demo.testjbpm630_spring_intomcat.mybatis.User;
 import me.ooi.demo.testjbpm630_spring_intomcat.mybatis.UserMapper;
 
 /**
@@ -21,15 +18,7 @@ public class TestConcurrentService {
 	private WorkFlowHelper workFlowHelper ; 
 	
 	@Autowired
-	private RuntimeEngineHolder runtimeEngineHolder ; 
-	
-	@Autowired
 	private UserMapper userMapper ; 
-	
-	@PostConstruct
-	private void init(){
-		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
-	}
 	
 	@Transactional
 	public Long testWorkFLow(){
@@ -44,8 +33,8 @@ public class TestConcurrentService {
 		readyTask = workFlowHelper.getReadyTaskByProcessInstanceId(processInstanceId) ; 
 		workFlowHelper.doTask(processInstanceId, readyTask.getId(), "abc");
 		
-		//other opt
-		userMapper.addUser(new User("xiaoming", 10));
+//		//other opt
+//		userMapper.addUser(new User("xiaoming", 10));
 		
 		return processInstanceId;
 	}

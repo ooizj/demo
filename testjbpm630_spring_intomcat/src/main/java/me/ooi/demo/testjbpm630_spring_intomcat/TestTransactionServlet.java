@@ -35,7 +35,8 @@ public class TestTransactionServlet extends HttpServlet {
 			        this.getServletContext());
 		testTransactionService = context.getBean(TestTransactionService.class);
 		
-		testTransactionService.testTransaction2();
+//		testTransactionService.testTransaction2();
+		testTransactionService.testWorkFLow();
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}

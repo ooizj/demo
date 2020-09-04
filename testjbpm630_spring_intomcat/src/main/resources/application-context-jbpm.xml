@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:jee="http://www.springframework.org/schema/jee" 
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+	   					   http://www.springframework.org/schema/tx 
+	   					   http://www.springframework.org/schema/tx/spring-tx-4.2.xsd 
+	   					   http://www.springframework.org/schema/jee 
+	   					   http://www.springframework.org/schema/jee/spring-jee-4.2.xsd 
+	   					   http://www.springframework.org/schema/context 
+	   					   http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	   					   http://www.springframework.org/schema/aop
+	   					   http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	   					   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	
+	
+	<bean id="process1" factory-method="newClassPathResource" class="org.kie.internal.io.ResourceFactory">
+	  <constructor-arg><value>t2.bpmn</value></constructor-arg>
+	  <constructor-arg><value>utf-8</value></constructor-arg>
+	</bean>
+	<bean id="process2" factory-method="newClassPathResource" class="org.kie.internal.io.ResourceFactory">
+	  <constructor-arg><value>t3.bpmn</value></constructor-arg>
+	  <constructor-arg><value>utf-8</value></constructor-arg>
+	</bean>
+	<bean id="runtimeEnvironment" class="org.kie.spring.factorybeans.RuntimeEnvironmentFactoryBean">
+		<property name="type" value="DEFAULT"/>
+		<property name="entityManagerFactory" ref="entityManagerFactory"/>
+		<property name="transactionManager" ref="transactionManager"/>
+		<property name="userGroupCallback" ref="jbpmUserGroupCallback"/>
+		<property name="pessimisticLocking" value="true"/>
+		<property name="assets">
+		    <map>
+		      <entry key-ref="process1"><util:constant static-field="org.kie.api.io.ResourceType.BPMN2"/></entry>
+		      <entry key-ref="process2"><util:constant static-field="org.kie.api.io.ResourceType.BPMN2"/></entry>
+		    </map>
+	  </property>
+	</bean>
+	<bean class="org.kie.spring.factorybeans.RuntimeManagerFactoryBean">
+		<property name="identifier" value="spring-rm"/>
+		<property name="runtimeEnvironment" ref="runtimeEnvironment"/>
+	</bean>
+	<bean id="taskService" class="org.kie.spring.factorybeans.TaskServiceFactoryBean">
+		<property name="entityManagerFactory" ref="entityManagerFactory"/>
+		<property name="transactionManager" ref="transactionManager"/>
+		<property name="userGroupCallback" ref="jbpmUserGroupCallback"/>
+	</bean>
+	
+</beans>

@@ -37,12 +37,15 @@ public class TestConcurrentServlet extends HttpServlet {
 			        this.getServletContext());
 		testConcurrentService = context.getBean(TestConcurrentService.class);
 		
-		
-		int count = 500;
+		int count = 50;
 		CountDownLatch cdl = new CountDownLatch(count);
 		for (int i = 0; i < count; i++) {
 			new Thread(()->{
-				testConcurrentService.testWorkFLow();
+				try {
+					testConcurrentService.testWorkFLow();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				cdl.countDown();
 			}).start();
 		}
@@ -51,6 +54,7 @@ public class TestConcurrentServlet extends HttpServlet {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}

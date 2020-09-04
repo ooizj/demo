@@ -5,6 +5,7 @@
 	   xmlns:tx="http://www.springframework.org/schema/tx"
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:util="http://www.springframework.org/schema/util"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	   					   http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
 	   					   http://www.springframework.org/schema/tx 
@@ -14,15 +15,16 @@
 	   					   http://www.springframework.org/schema/context 
 	   					   http://www.springframework.org/schema/context/spring-context-4.2.xsd
 	   					   http://www.springframework.org/schema/aop
-	   					   http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+	   					   http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	   					   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<context:component-scan base-package="me.ooi.demo.testjbpm630_spring_intomcat" />
 	<context:property-placeholder location="classpath:jdbc.properties" file-encoding="utf-8"/>
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml"/>
-<!-- 		<property name="dataSource" ref="dataSource"/> -->
-		<property name="jtaDataSource" ref="dataSource"/>
+		<property name="dataSource" ref="dataSource"/>
+<!-- 		<property name="jtaDataSource" ref="dataSource"/> -->
 	</bean>
     
 	<!-- 	Bitronix BTM -->
@@ -88,5 +90,10 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
+	
+	<beans profile="xml">
+		<import  resource="application-context-jbpm.xml"/>
+	</beans>
+	
 	
 </beans>
