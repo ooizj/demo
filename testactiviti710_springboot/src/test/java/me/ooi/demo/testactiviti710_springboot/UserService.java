@@ -16,6 +16,9 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
+//	@Autowired
+//	private UserMapper2 userMapper;
+	
 	@Transactional
 	public void updateUserAge(Long id) {
 		User user = userMapper.getUser(id);

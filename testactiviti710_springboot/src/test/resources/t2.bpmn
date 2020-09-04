@@ -14,6 +14,10 @@
 
   <itemDefinition id="_userIdItem" structureRef="String" />
 
+  <itemDefinition id="_3-userIdItem" structureRef="String" />
+
+  <itemDefinition id="_4-userIdItem" structureRef="String" />
+
   <process processType="Private" isExecutable="true" id="t2" name="name2" tns:packageName="me.ooi.demo" >
 
     <!-- process variables -->
@@ -26,20 +30,38 @@
     </endEvent>
     <userTask id="_3" name="中文" >
       <ioSpecification>
+        <dataInput id="_3_CommentInput" name="Comment" />
         <dataInput id="_3_TaskNameInput" name="TaskName" />
+        <dataInput id="_3_ContentInput" name="Content" />
         <dataInput id="_3_GroupIdInput" name="GroupId" />
         <inputSet>
+          <dataInputRefs>_3_CommentInput</dataInputRefs>
           <dataInputRefs>_3_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_3_ContentInput</dataInputRefs>
           <dataInputRefs>_3_GroupIdInput</dataInputRefs>
         </inputSet>
         <outputSet>
         </outputSet>
       </ioSpecification>
       <dataInputAssociation>
+        <targetRef>_3_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">comment是什么</from>
+          <to xsi:type="tFormalExpression">_3_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
         <targetRef>_3_TaskNameInput</targetRef>
         <assignment>
           <from xsi:type="tFormalExpression">my task name 1</from>
           <to xsi:type="tFormalExpression">_3_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_3_ContentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">content是什么</from>
+          <to xsi:type="tFormalExpression">_3_ContentInput</to>
         </assignment>
       </dataInputAssociation>
       <dataInputAssociation>
@@ -57,20 +79,38 @@
     </userTask>
     <userTask id="_4" name="中文测试2sldf" >
       <ioSpecification>
+        <dataInput id="_4_CommentInput" name="Comment" />
         <dataInput id="_4_TaskNameInput" name="TaskName" />
+        <dataInput id="_4_ContentInput" name="Content" />
         <dataInput id="_4_GroupIdInput" name="GroupId" />
         <inputSet>
+          <dataInputRefs>_4_CommentInput</dataInputRefs>
           <dataInputRefs>_4_TaskNameInput</dataInputRefs>
+          <dataInputRefs>_4_ContentInput</dataInputRefs>
           <dataInputRefs>_4_GroupIdInput</dataInputRefs>
         </inputSet>
         <outputSet>
         </outputSet>
       </ioSpecification>
       <dataInputAssociation>
+        <targetRef>_4_CommentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">comment是什么2</from>
+          <to xsi:type="tFormalExpression">_4_CommentInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
         <targetRef>_4_TaskNameInput</targetRef>
         <assignment>
           <from xsi:type="tFormalExpression">mytask2</from>
           <to xsi:type="tFormalExpression">_4_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_4_ContentInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">content是什么</from>
+          <to xsi:type="tFormalExpression">_4_ContentInput</to>
         </assignment>
       </dataInputAssociation>
       <dataInputAssociation>

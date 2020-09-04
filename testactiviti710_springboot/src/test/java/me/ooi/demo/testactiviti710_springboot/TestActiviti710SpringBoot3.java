@@ -17,11 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class TestActiviti710SpringBoot3 {
 	
     @Autowired
-    private TestActivitiService testActivitiService;
+    private TestTransaction testTransaction;
     
     @Test
     public void t1() {
-    	testActivitiService.t1();
+    	testTransaction.t1();
     }
     
     @Test
@@ -31,7 +31,7 @@ public class TestActiviti710SpringBoot3 {
     	for (int i = 0; i < count; i++) {
 			new Thread(()->{
 				try {
-					testActivitiService.t2();
+					testTransaction.t2();
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {

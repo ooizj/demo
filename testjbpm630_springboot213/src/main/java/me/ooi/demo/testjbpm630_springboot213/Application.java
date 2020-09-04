@@ -8,10 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 1.0
  */
 @SpringBootApplication
-public class TestJbpm630SpringBoot213Application {
+public class Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TestJbpm630SpringBoot213Application.class, args);
-	}
-	
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }
