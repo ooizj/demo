@@ -1,0 +1,11 @@
+JarIndex-Version: 1.0
+
+jbpm-test-6.3.0.Final-sources.jar
+META-INF
+org
+org/jbpm
+org/jbpm/test
+jBPM.properties
+jndi.properties
+usergroups.properties
+

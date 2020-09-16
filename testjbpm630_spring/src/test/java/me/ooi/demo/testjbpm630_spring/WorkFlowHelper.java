@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.TaskService;
@@ -11,6 +13,7 @@ import org.kie.api.task.model.Status;
 import org.kie.api.task.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +28,14 @@ public class WorkFlowHelper {
 	@Autowired
 	private RuntimeEngineHolder runtimeEngineHolder ; 
 	
-//	@PostConstruct
-//	private void init(){
-//		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
-//	}
+	@Autowired
+	private ApplicationContext applicationContext;
+	
+	@PostConstruct
+	private void init(){
+		RuntimeEngineHolder runtimeEngineHolder = applicationContext.getBean(RuntimeEngineHolder.class);
+		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
+	}
 	
 	public long startProcess(String processId, String actorId){
 		KieSession ksession = runtimeEngineHolder.getRuntimeEngine().getKieSession();

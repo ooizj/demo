@@ -36,9 +36,9 @@ public class ApplicationConfiguration {
                 {"other", "password", "ROLE_ACTIVITI_USER",        "GROUP_otherTeam"},
                 {"admin", "password", "ROLE_ACTIVITI_ADMIN"},
                 
-                {"u1", "password", "ROLE_ACTIVITI_USER", "g1"},
-                {"u2", "password", "ROLE_ACTIVITI_USER", "g2"},
-                {"u3", "password", "ROLE_ACTIVITI_USER", "g3"},
+                {"u1", "password", "ROLE_ACTIVITI_USER", "g1", "group1"},
+                {"u2", "password", "ROLE_ACTIVITI_USER", "g2", "group2"},
+                {"u3", "password", "ROLE_ACTIVITI_USER", "g3", "group3"},
         };
 
         for (String[] user : usersGroupsAndRoles) {
@@ -60,16 +60,20 @@ public class ApplicationConfiguration {
     
     @Bean
     public TaskRuntimeEventListener<TaskAssignedEvent> taskAssignedListener() {
-        return taskAssigned -> logger.info(">>> Task Assigned: '"
+        return taskAssigned -> logger.info(Thread.currentThread().getId()+ ">>> Task Assigned: '"
                 + taskAssigned.getEntity().getName() +
                 "' We can send a notification to the assginee: " + taskAssigned.getEntity().getAssignee());
     }
 
     @Bean
     public TaskRuntimeEventListener<TaskCompletedEvent> taskCompletedListener() {
-        return taskCompleted -> logger.info(">>> Task Completed: '"
+        return taskCompleted -> {
+        	System.out.println("Thread.currentThread().getId()="+Thread.currentThread().getId());
+//        	int a = 3/0;
+        	logger.info(Thread.currentThread().getId()+ ">>> Task Completed: '"
                 + taskCompleted.getEntity().getName() +
                 "' We can send a notification to the owner: " + taskCompleted.getEntity().getOwner());
+        };
     }
 
 }

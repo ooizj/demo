@@ -2,6 +2,7 @@ package me.ooi.demo.testactiviti710_springboot;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +54,7 @@ public class TestActiviti710SpringBoot2 {
     public void init() {
     	Deployment deployment = repositoryService.createDeployment()
     			  .addClasspathResource("t2.bpmn")
-    			  .addClasspathResource("discountbatch.bpmn")
+    			  .addClasspathResource("t4.bpmn")
     			  .deploy();
     	System.out.println(deployment);
     	assertThat(deployment).isNotNull();
@@ -162,6 +164,59 @@ public class TestActiviti710SpringBoot2 {
         // Let's complete the task
         logger.info("> Completing the task");
         taskService.complete(taskId);
+    }
+    
+    @Test
+    public void t5() {
+    	String user = "u1";
+        securityUtil.logInAs(user);
+        
+        Map<String, Object> params = new HashMap<>() ; 
+		params.put("userId", user) ; 
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("t2", params);
+        logger.info("processInstance id is "+processInstance.getId());
+        
+    	List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
+    	assertThat(tasks).isNotEmpty();
+    	
+        Task task = tasks.get(0);
+        String taskId = task.getId();
+        taskService.claim(taskId, user);
+        taskService.complete(taskId);
+        
+        tasks = taskService.createTaskQuery().taskName("中文测试2sldf").list();
+    	assertThat(tasks).isNotEmpty();
+    	System.out.println(tasks);
+    	System.out.println(ToStringBuilder.reflectionToString(tasks));
+    }
+    
+    @Test
+    public void t5_1() {
+    	
+    	System.out.println(Thread.currentThread().getId()+ "查询任务");
+    	
+    	String user = "u1";
+        securityUtil.logInAs(user);
+        
+        Map<String, Object> params = new HashMap<>() ; 
+		params.put("userId", user) ; 
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("t4", params);
+        logger.info("processInstance id is "+processInstance.getId());
+        
+    	List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
+    	assertThat(tasks).isNotEmpty();
+    	
+        Task task = tasks.get(0);
+        assertThat(task.getName()).isEqualTo("节点1");
+        String taskId = task.getId();
+        taskService.claim(taskId, user);
+        taskService.complete(taskId);
+    	
+    	tasks = taskService.createTaskQuery().processDefinitionKey("t4").taskName("节点2").list();
+    	assertThat(tasks).isNotEmpty();
+    	System.out.println(tasks);
+    	System.out.println(ToStringBuilder.reflectionToString(tasks));
+        
     }
 	
 }

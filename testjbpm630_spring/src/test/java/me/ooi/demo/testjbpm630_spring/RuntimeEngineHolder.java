@@ -7,8 +7,15 @@ import javax.persistence.EntityManagerFactory;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.drools.core.impl.EnvironmentFactory;
+import org.drools.persistence.SingleSessionCommandService;
+import org.drools.persistence.TransactionManager;
+import org.drools.persistence.jta.JtaTransactionManager;
+import org.jbpm.persistence.JpaProcessPersistenceContextManager;
+import org.jbpm.services.task.persistence.JPATaskPersistenceContextManager;
 import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
+import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.EnvironmentName;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeEnvironment;
@@ -20,12 +27,17 @@ import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.runtime.manager.RuntimeManagerRegistry;
 import org.kie.internal.runtime.manager.context.EmptyContext;
 import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
+import org.kie.spring.persistence.KieSpringJpaManager;
+import org.kie.spring.persistence.KieSpringTaskJpaManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.AbstractPlatformTransactionManager;
+
+import bitronix.tm.TransactionManagerServices;
 
 /**
 * @author jun.zhao
@@ -89,11 +101,25 @@ public class RuntimeEngineHolder {
 	}
 	
 	private RuntimeEnvironment buildRuntimeEnvironment(List<Resource> jbpmFiles){
+		TransactionManager transactionManager = new ContainerManagedTransactionManager(); 
+//		TransactionManager transactionManager = new JtaTransactionManager(null,  null,  null);
+		
+		Environment env = EnvironmentFactory.newEnvironment();
+		env.set(EnvironmentName.ENTITY_MANAGER_FACTORY, entityManagerFactory);
+		env.set(EnvironmentName.TRANSACTION_MANAGER, transactionManager);
+		env.set(EnvironmentName.USE_PESSIMISTIC_LOCKING, true);
+		env.set("IS_JTA_TRANSACTION", Boolean.FALSE);
+		
 		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get()
 				.newDefaultBuilder()
 				.userGroupCallback(userGroupCallback)
 				.addEnvironmentEntry(EnvironmentName.TRANSACTION_MANAGER, transactionManager)
-				.entityManagerFactory(entityManagerFactory) ; 
+				.addEnvironmentEntry(EnvironmentName.PERSISTENCE_CONTEXT_MANAGER, new JpaProcessPersistenceContextManager(env))
+				.addEnvironmentEntry(EnvironmentName.TASK_PERSISTENCE_CONTEXT_MANAGER, new JPATaskPersistenceContextManager(env))
+				.addEnvironmentEntry(EnvironmentName.USE_PESSIMISTIC_LOCKING, true)
+				.addEnvironmentEntry("IS_JTA_TRANSACTION", Boolean.TRUE)
+				.entityManagerFactory(entityManagerFactory) 
+				; 
 		
 		if( jbpmFiles != null ){
 			for (Resource jbpmFile : jbpmFiles) {
@@ -103,6 +129,36 @@ public class RuntimeEngineHolder {
 		return builder.get() ; 
 	}
 	
+//	private RuntimeEnvironment buildRuntimeEnvironment(List<Resource> jbpmFiles){
+////		TransactionManager trans = new ContainerManagedTransactionManager(); 
+//		TransactionManager transactionManager = new JtaTransactionManager(null,  null,  null);
+//		
+//		Environment env = EnvironmentFactory.newEnvironment();
+//		env.set(EnvironmentName.ENTITY_MANAGER_FACTORY, entityManagerFactory);
+//		env.set(EnvironmentName.TRANSACTION_MANAGER, transactionManager);
+//		env.set(EnvironmentName.USE_PESSIMISTIC_LOCKING, true);
+//		env.set("IS_JTA_TRANSACTION", Boolean.FALSE);
+//		
+//		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get()
+//				.newDefaultBuilder()
+//				.userGroupCallback(userGroupCallback)
+//				.addEnvironmentEntry(EnvironmentName.TRANSACTION_MANAGER, transactionManager)
+//				.addEnvironmentEntry(EnvironmentName.PERSISTENCE_CONTEXT_MANAGER, new KieSpringJpaManager(env))
+//				.addEnvironmentEntry(EnvironmentName.TASK_PERSISTENCE_CONTEXT_MANAGER, new KieSpringTaskJpaManager(env))
+//				.addEnvironmentEntry(EnvironmentName.USE_PESSIMISTIC_LOCKING, true)
+//				.addEnvironmentEntry("IS_JTA_TRANSACTION", Boolean.TRUE)
+//				.entityManagerFactory(entityManagerFactory) 
+//				; 
+//		
+//		if( jbpmFiles != null ){
+//			for (Resource jbpmFile : jbpmFiles) {
+//				builder.addAsset(jbpmFile, ResourceType.BPMN2) ; 
+//			}
+//		}
+//		return builder.get() ; 
+//	}
+	
+	@Transactional
 	public synchronized void reset(String strategy){ 
 		this.strategy = strategy ; 
 		

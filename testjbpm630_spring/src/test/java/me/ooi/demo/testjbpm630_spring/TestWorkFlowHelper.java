@@ -19,14 +19,10 @@ public class TestWorkFlowHelper {
 	@Autowired
 	private WorkFlowHelper workFlowHelper ; 
 	
-	@Autowired
-	private RuntimeEngineHolder runtimeEngineHolder ; 
-	
 	private Long processInstanceId ; 
 	
 	@Before
 	public void init(){
-		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
 		processInstanceId = workFlowHelper.startProcess("t2", "123") ; 
 	}
 	

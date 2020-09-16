@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context antiJarLocking="true" antiResourceLocking="true">
+
+
+	<Transaction factory="bitronix.tm.BitronixUserTransactionObjectFactory" />
+	
+	<Resource name="TransactionManager" type="javax.transaction.TransactionManager"
+              factory="bitronix.tm.BitronixTransactionManagerObjectFactory"/>
+
+    <Resource name="TransactionSynchronizationRegistry" type="javax.transaction.TransactionSynchronizationRegistry"
+              factory="bitronix.tm.BitronixTransactionSynchronizationRegistryObjectFactory"/>
+
+</Context>

@@ -1,7 +1,5 @@
 package me.ooi.demo.testjbpm630_spring;
 
-import javax.annotation.PostConstruct;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.api.task.model.Task;
@@ -21,14 +19,6 @@ public class TestJbpmWithTransaction {
 	
 	@Autowired
 	private WorkFlowHelper workFlowHelper ; 
-	
-	@Autowired
-	private RuntimeEngineHolder runtimeEngineHolder ; 
-	
-	@PostConstruct
-	private void init(){
-		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
-	}
 	
 	@Test
 	@Rollback(false) //在进行测试的时候，必须设置为false才能提交，否则会回滚，如果不用“spring-test”则不用设置；另外，设置为“false”后报错也不会回滚

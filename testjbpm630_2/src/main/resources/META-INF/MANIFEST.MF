@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: kiereleaseuser
+Build-Jdk: 1.7.0_25
+Specification-Title: jBPM :: Test
+Specification-Version: 6.3.0.Final
+Specification-Vendor: JBoss by Red Hat
+Implementation-Title: jBPM :: Test
+Implementation-Version: 6.3.0.Final
+Implementation-Vendor-Id: org.jbpm
+Implementation-Vendor: JBoss by Red Hat
+Build-Timestamp: Fri, 25 Sep 2015 12:48:29 +0200
+Bundle-ManifestVersion: 2
+Bundle-Name: jBPM :: Test
+Bundle-SymbolicName: jbpm-test.source
+Bundle-Vendor: JBoss by Red Hat
+Bundle-Version: 6.3.0.201509251048
+Eclipse-SourceBundle: jbpm-test;version="6.3.0.201509251048";roots:="."
+Implementation-URL: http://www.jboss.org/jbpm/jbpm-test/
+Java-Vendor: Oracle Corporation
+Java-Version: 1.7.0_25
+Os-Arch: amd64
+Os-Name: Linux
+Os-Version: 2.6.32-504.8.1.el6.x86_64
+Scm-Connection: scm:git:git@github.com:droolsjbpm/jbpm.git/jbpm-test
+Scm-Revision: 3d55139505def5e24b42064da3940c9f601d553d
+Scm-Url: https://github.com/droolsjbpm/jbpm/jbpm-test
+

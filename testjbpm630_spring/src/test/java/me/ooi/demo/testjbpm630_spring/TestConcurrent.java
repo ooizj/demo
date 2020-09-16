@@ -25,21 +25,29 @@ public class TestConcurrent {
 	
 	@After
 	public void after(){
-		ctx.close();
+		if( ctx != null ) {
+			ctx.close();
+		}
 	}
 	
 	@Test
 	public void t1(){
+		//SingleSessionCommandService
+		testConcurrentService.testWorkFLow();
 		testConcurrentService.testWorkFLow();
 	}
 	
 	@Test
 	public void t2() throws InterruptedException{
-		int count = 500;
+		int count = 2;
 		CountDownLatch cdl = new CountDownLatch(count);
 		for (int i = 0; i < count; i++) {
 			new Thread(()->{
-				testConcurrentService.testWorkFLow();
+				try {
+					testConcurrentService.testWorkFLow();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				cdl.countDown();
 			}).start();
 		}

@@ -1,10 +1,9 @@
 package me.ooi.demo.testjbpm630_spring;
 
-import javax.annotation.PostConstruct;
-
 import org.kie.api.task.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -16,14 +15,6 @@ public class TestConcurrentService {
 	
 	@Autowired
 	private WorkFlowHelper workFlowHelper ; 
-	
-	@Autowired
-	private RuntimeEngineHolder runtimeEngineHolder ; 
-	
-	@PostConstruct
-	private void init(){
-		runtimeEngineHolder.reset(RuntimeEngineHolder.STRATEGY_PER_PROCESSINSTANCE); 
-	}
 	
 	@Transactional
 	public void testWorkFLow(){

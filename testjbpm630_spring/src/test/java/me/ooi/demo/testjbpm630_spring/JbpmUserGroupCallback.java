@@ -42,47 +42,11 @@ public class JbpmUserGroupCallback implements UserGroupCallback {
     public List<String> getGroupsForUser(String userId, List<String> groupIds,  
             List<String> allExistingGroupIds) {  
         return userGroups.get(userId) ; 
-		/*
-		if (groupIds != null) {  
-  
-            List<String> retList = new ArrayList<String>(groupIds);  
-  
-            // merge all groups  
-  
-            if (allExistingGroupIds != null) {  
-  
-                for (String grp : allExistingGroupIds) {  
-  
-                    if (!retList.contains(grp)) {  
-  
-                        retList.add(grp);  
-  
-                    }  
-  
-                }  
-  
-            }  
-  
-            return retList;  
-  
-        } else {  
-        	
-        	if( userId.equals("u5") ){
-        		return Collections.singletonList("g2") ; 
-        	}
-        	
-            //  
-            // return empty list by default  
-            // please note: there are different return value for different  
-            // version of jPBM  
-            // List<String> retList = new ArrayList<String>();  
-  
-            // retList.add("user");  
-            // return retList;  
-            // return new ArrayList<String>(); //for jBPM5.3.0.Final  
-            return null; // for jBPM5.4.0.CR1  
-  
-        }  
-        */
-    }  
+    }
+
+//	@Override
+//	public List<String> getGroupsForUser(String userId) {
+//		return userGroups.get(userId) ; 
+//	}  
+	
 } 
