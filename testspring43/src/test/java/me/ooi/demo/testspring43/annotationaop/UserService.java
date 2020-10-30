@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 	
+	@TestAnnotationPointcutDef
 	public int saveUser(String name){
 		
 //		System.out.println("生成的代理类："+AopContext.currentProxy().getClass());

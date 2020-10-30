@@ -1,4 +1,4 @@
-package com.sample;
+package me.ooi.demo.testjbpm630_3;
 
 import org.kie.api.event.process.DefaultProcessEventListener;
 import org.kie.api.event.process.ProcessCompletedEvent;

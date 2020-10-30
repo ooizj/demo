@@ -181,5 +181,36 @@ public class TestActiviti710 {
         
         processEngine.close();
 	}
+	
+	@Test
+	public void t3() throws SQLException {
+		MysqlDataSource ds = new MysqlDataSource();
+		ds.setUrl("jdbc:mysql://127.0.0.1:3306/testjbpm630_1?useUnicode=true&characterEncoding=utf8&autoReconnect=true&pinGlobalTxToPhysicalConnection=true&useSSL=false&serverTimezone=GMT");
+		ds.setUser("root");
+		ds.setPassword("root");
+		
+		// Create Activiti process engine
+		ProcessEngine processEngine = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration()
+				.setDataSource(ds)
+				.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
+				.buildProcessEngine();
+
+		// Get Activiti services
+		RepositoryService repositoryService = processEngine.getRepositoryService();
+		RuntimeService runtimeService = processEngine.getRuntimeService();
+		TaskService taskService = processEngine.getTaskService();
+
+		// Deploy the process definition
+		repositoryService.createDeployment().addClasspathResource("testscript.bpmn").deploy();
+        
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("testscript");
+        System.out.println(processInstance);
+        
+        List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
+        assertThat(tasks).isNotEmpty();
+        ScriptEngineFactory
+        
+        processEngine.close();
+	}
 
 }

@@ -44,7 +44,7 @@ public class ProcessTest extends JbpmJUnitBaseTestCase {
 		taskService.start(task.getId(), "mary");
 		taskService.complete(task.getId(), "mary", null);
 
-		assertProcessInstanceCompleted(processInstance.getId(), ksession);
+		assertProcessInstanceCompleted(processInstance.getId());
 		
 		manager.disposeRuntimeEngine(engine);
 		manager.close();

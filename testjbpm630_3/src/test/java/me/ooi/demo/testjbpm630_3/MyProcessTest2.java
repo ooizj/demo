@@ -1,4 +1,4 @@
-package com.sample;
+package me.ooi.demo.testjbpm630_3;
 
 import java.util.List;
 import java.util.Properties;
@@ -7,7 +7,6 @@ import java.util.concurrent.CountDownLatch;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.jbpm.test.JBPMHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -158,7 +157,7 @@ public class MyProcessTest2 {
 	public static Properties getProperties() {
         Properties properties = new Properties();
         try {
-            properties.load(JBPMHelper.class.getResourceAsStream("/jBPM.properties"));
+            properties.load(MyProcessTest2.class.getResourceAsStream("/jBPM.properties"));
         } catch (Throwable t) {
             // do nothing, use defaults
         }

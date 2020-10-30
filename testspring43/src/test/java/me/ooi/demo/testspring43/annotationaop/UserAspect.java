@@ -1,5 +1,7 @@
 package me.ooi.demo.testspring43.annotationaop;
 
+import java.lang.reflect.Method;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -9,6 +11,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.style.ToStringCreator;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,10 +24,13 @@ import org.springframework.stereotype.Component;
 public class UserAspect {
 
 	@Pointcut("execution(* me.ooi.demo.testspring43.annotationaop.UserService.saveUser(..))")
-	public void pointcut1() {}
+	private void pointcut1() {}
 	
 	@Pointcut("execution(* me.ooi.demo.testspring43.annotationaop.UserService.updateUser(..))")
-	public void pointcut2() {}
+	private void pointcut2() {}
+	
+	@Pointcut("@annotation(me.ooi.demo.testspring43.annotationaop.TestAnnotationPointcutDef)")
+	private void pointcut3() {}
 	
 	//在切入点之前执行
 	@Before("pointcut1()")
@@ -44,8 +51,17 @@ public class UserAspect {
 	}
 	
 	//手动执行切入点的原方法
-	@Around("pointcut1()")
+	@Around("pointcut3() or pointcut1()")
 	public Object pointcut1Around(ProceedingJoinPoint pjp) throws Throwable{
+		MethodSignature signature = (MethodSignature) pjp.getSignature();
+		System.out.println(new ToStringCreator(signature.getParameterNames()).toString());
+		System.out.println(new ToStringCreator(signature.getParameterTypes()).toString());
+		Method method = signature.getMethod();
+		System.out.println(method);
+		TestAnnotationPointcutDef annotation = method.getAnnotation(TestAnnotationPointcutDef.class);
+		System.out.println(annotation);
+		System.out.println(new ToStringCreator(pjp.getArgs()).toString());
+		
 		String methodName = pjp.getSignature().getName() ; 
 		System.out.println("pointcut1Around before "+methodName);
 		Object ret = pjp.proceed() ; 
