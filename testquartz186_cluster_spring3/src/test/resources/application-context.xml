@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+	<context:component-scan base-package="me.ooi.demo.testquartz186_cluster_spring3"/>
+	
+	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <property name="url" value="jdbc:mysql://127.0.0.1:3306/testquartz?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;pinGlobalTxToPhysicalConnection=true&amp;useSSL=false" />
+	    <property name="username" value="root" />
+	    <property name="password" value="root" />
+	</bean>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<bean name="testJob2" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+	    <property name="jobClass" value="me.ooi.demo.testquartz186_cluster_spring3.TestJob2" />
+	    <property name="group" value="group1" />
+	    <property name="durability" value="true" />
+	</bean>
+	
+	<bean id="trigger2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="testJob2"/>
+		<property name="group" value="group1" />
+		<property name="cronExpression" value="0/3 * * * * ?"/>
+	</bean>
+	
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+<!-- 		<property name="transactionManager" ref="transactionManager"/> -->
+
+		<!-- This name is persisted as SCHED_NAME in db. for local testing could change to unique name
+		     to avoid collision with dev server -->
+		<property name="schedulerName" value="quartzScheduler"/>
+		
+		 <!--Optional, QuartzScheduler updates the existing job when it starts, so that there is no need to delete the corresponding record in the qrtz_job_details table every time the targetObject is modified-->
+        <property name="overwriteExistingJobs" value="true"/>
+        
+		 <!-- Property -->
+		<property name="quartzProperties">
+			<props>
+				 <!-- The cluster requires persistent storage -->
+				<prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+                <prop key="org.quartz.scheduler.instanceName">MySchedulerTest3</prop>
+				 <!-- Each cluster node must have an independent instanceId -->
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+				<!-- Configure ThreadPool -->
+				<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+				<prop key="org.quartz.threadPool.threadCount">20</prop>
+				<prop key="org.quartz.threadPool.threadPriority">5</prop>
+				<prop key="org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread">true</prop>
+				<!-- Configure JobStore -->
+				<prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+				<prop key="org.quartz.jobStore.driverDelegateClass">org.quartz.impl.jdbcjobstore.StdJDBCDelegate</prop>
+				<prop key="org.quartz.jobStore.tablePrefix">qrtz_</prop>
+				<prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">10</prop>
+				 <!-- Start the cluster -->
+				<prop key="org.quartz.jobStore.isClustered">true</prop>
+				<prop key="org.quartz.jobStore.clusterCheckinInterval">5000</prop>
+				<prop key="org.quartz.jobStore.dontSetAutoCommitFalse">true</prop>
+				<prop key="org.quartz.jobStore.txIsolationLevelSerializable">false</prop>
+				<prop key="org.quartz.jobStore.useProperties">false</prop>
+			</props>
+		</property>
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+		
+		<property name="triggers">
+			<list>
+				<ref bean="trigger2"/>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
