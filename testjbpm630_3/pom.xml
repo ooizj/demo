@@ -15,7 +15,7 @@
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<jbpm.version>6.3.0.Final</jbpm.version>
+		<jbpm.version>7.60.0.Final</jbpm.version>
 		<hibernate.version>4.2.20.Final</hibernate.version>
 		<btm.version>2.1.4</btm.version>
 	</properties>
