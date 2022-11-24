@@ -16,7 +16,7 @@
 		
 		<drools.version>6.3.0.Final</drools.version>
 		<jbpm.version>6.3.0.Final</jbpm.version>
-    	<hibernate.version>4.2.0.Final</hibernate.version>
+    	<hibernate.version>5.3.20.Final</hibernate.version>
     	<btm.version>3.0.0-mk1</btm.version>
 	</properties>
 	
